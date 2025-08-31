@@ -29,17 +29,17 @@ export default function SignUpPage() {
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password || !confirmPassword) {
-      setError('Please fill in all fields');
+      setError('请填写所有必填字段');
       return;
     }
     
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError('两次输入的密码不一致');
       return;
     }
 
     if (password.length < 6) {
-      setError('Password must be at least 6 characters long');
+      setError('密码长度至少需要6位');
       return;
     }
     
@@ -49,7 +49,17 @@ export default function SignUpPage() {
       await signUp(email, password, displayName || undefined);
       router.push('/dashboard');
     } catch (error) {
-      setError((error as Error).message || 'Failed to create account');
+      // 转换 Firebase 错误为中文提示
+      const errorMessage = (error as Error).message;
+      if (errorMessage.includes('email-already-in-use')) {
+        setError('该邮箱已被注册，请使用其他邮箱或直接登录');
+      } else if (errorMessage.includes('invalid-email')) {
+        setError('邮箱格式不正确');
+      } else if (errorMessage.includes('weak-password')) {
+        setError('密码强度不够，请设置更复杂的密码');
+      } else {
+        setError('注册失败，请重试');
+      }
     } finally {
       setLoading(false);
     }
@@ -60,9 +70,12 @@ export default function SignUpPage() {
       setLoading(true);
       setError('');
       await signInWithGoogle();
-      router.push('/dashboard');
+      // 登录成功后会自动通过 AuthContext 的状态变化跳转到 dashboard
     } catch (error) {
-      setError((error as Error).message || 'Failed to sign up with Google');
+      // 只有在真正出错时才显示错误信息
+      if (error && (error as Error).message) {
+        setError((error as Error).message);
+      }
     } finally {
       setLoading(false);
     }
@@ -73,12 +86,12 @@ export default function SignUpPage() {
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="text-center">
           <h2 className="text-3xl font-bold tracking-tight">
-            Create your account
+            创建您的账户
           </h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Or{' '}
+            已有账户？{' '}
             <Link href="/signin" className="font-medium text-primary hover:text-primary/80">
-              sign in to your existing account
+              立即登录
             </Link>
           </p>
         </div>
@@ -87,8 +100,8 @@ export default function SignUpPage() {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <Card>
           <CardHeader>
-            <CardTitle>Get started</CardTitle>
-            <CardDescription>Create your account to start managing tasks</CardDescription>
+            <CardTitle>开始使用</CardTitle>
+            <CardDescription>创建账户，开始管理您的任务</CardDescription>
           </CardHeader>
           <CardContent>
             {error && (
@@ -99,7 +112,7 @@ export default function SignUpPage() {
 
             <form className="space-y-4" onSubmit={handleSignUp}>
               <div className="space-y-2">
-                <Label htmlFor="displayName">Display Name (optional)</Label>
+                <Label htmlFor="displayName">显示名称（可选）</Label>
                 <Input
                   id="displayName"
                   name="displayName"
@@ -107,12 +120,12 @@ export default function SignUpPage() {
                   autoComplete="name"
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
-                  placeholder="Enter your display name"
+                  placeholder="请输入您的显示名称"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email address</Label>
+                <Label htmlFor="email">邮箱地址</Label>
                 <Input
                   id="email"
                   name="email"
@@ -121,12 +134,12 @@ export default function SignUpPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
+                  placeholder="请输入您的邮箱"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">密码</Label>
                 <Input
                   id="password"
                   name="password"
@@ -135,12 +148,12 @@ export default function SignUpPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
+                  placeholder="请输入密码（至少6位）"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <Label htmlFor="confirmPassword">确认密码</Label>
                 <Input
                   id="confirmPassword"
                   name="confirmPassword"
@@ -149,12 +162,12 @@ export default function SignUpPage() {
                   required
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="Confirm your password"
+                  placeholder="请再次输入密码"
                 />
               </div>
 
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? 'Creating account...' : 'Create account'}
+                {loading ? '创建账户中...' : '创建账户'}
               </Button>
 
               <div className="relative">
@@ -162,7 +175,7 @@ export default function SignUpPage() {
                   <span className="w-full border-t" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                  <span className="bg-background px-2 text-muted-foreground">或者使用以下方式</span>
                 </div>
               </div>
 
@@ -174,7 +187,7 @@ export default function SignUpPage() {
                 disabled={loading}
               >
                 <Chrome className="w-4 h-4 mr-2" />
-                Sign up with Google
+                使用 Google 注册
               </Button>
             </form>
           </CardContent>

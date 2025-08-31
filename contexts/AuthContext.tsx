@@ -75,7 +75,28 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const signInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
+    // 设置 Google 登录的额外配置
+    provider.addScope('profile');
+    provider.addScope('email');
+    provider.setCustomParameters({
+      prompt: 'select_account' // 允许用户选择账户
+    });
+    
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (error: unknown) {
+      // 处理弹窗被阻止的情况
+      const firebaseError = error as { code?: string; message?: string };
+      if (firebaseError.code === 'auth/popup-blocked') {
+        throw new Error('弹窗被浏览器阻止，请允许弹窗后重试');
+      } else if (firebaseError.code === 'auth/popup-closed-by-user') {
+        throw new Error('登录已取消');
+      } else if (firebaseError.code === 'auth/cancelled-popup-request') {
+        // 用户取消了登录，不需要抛出错误
+        return;
+      }
+      throw error;
+    }
   };
 
   const logout = async () => {

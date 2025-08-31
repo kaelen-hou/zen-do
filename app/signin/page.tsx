@@ -27,7 +27,7 @@ export default function SignInPage() {
   const handleEmailSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
-      setError('Please fill in all fields');
+      setError('请填写所有字段');
       return;
     }
     
@@ -37,7 +37,19 @@ export default function SignInPage() {
       await signIn(email, password);
       router.push('/dashboard');
     } catch (error) {
-      setError((error as Error).message || 'Failed to sign in');
+      // 转换 Firebase 错误为中文提示
+      const errorMessage = (error as Error).message;
+      if (errorMessage.includes('user-not-found')) {
+        setError('用户不存在，请检查邮箱地址');
+      } else if (errorMessage.includes('wrong-password')) {
+        setError('密码错误，请重试');
+      } else if (errorMessage.includes('invalid-email')) {
+        setError('邮箱格式不正确');
+      } else if (errorMessage.includes('too-many-requests')) {
+        setError('登录尝试次数过多，请稍后再试');
+      } else {
+        setError('登录失败，请检查您的凭据');
+      }
     } finally {
       setLoading(false);
     }
@@ -48,9 +60,12 @@ export default function SignInPage() {
       setLoading(true);
       setError('');
       await signInWithGoogle();
-      router.push('/dashboard');
+      // 登录成功后会自动通过 AuthContext 的状态变化跳转到 dashboard
     } catch (error) {
-      setError((error as Error).message || 'Failed to sign in with Google');
+      // 只有在真正出错时才显示错误信息
+      if (error && (error as Error).message) {
+        setError((error as Error).message);
+      }
     } finally {
       setLoading(false);
     }
@@ -61,12 +76,12 @@ export default function SignInPage() {
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="text-center">
           <h2 className="text-3xl font-bold tracking-tight">
-            Sign in to your account
+            登录您的账户
           </h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Or{' '}
+            还没有账户？{' '}
             <Link href="/signup" className="font-medium text-primary hover:text-primary/80">
-              create a new account
+              立即注册
             </Link>
           </p>
         </div>
@@ -75,8 +90,8 @@ export default function SignInPage() {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <Card>
           <CardHeader>
-            <CardTitle>Welcome back</CardTitle>
-            <CardDescription>Enter your credentials to sign in</CardDescription>
+            <CardTitle>欢迎回来</CardTitle>
+            <CardDescription>请输入您的登录信息</CardDescription>
           </CardHeader>
           <CardContent>
             {error && (
@@ -87,7 +102,7 @@ export default function SignInPage() {
 
             <form className="space-y-4" onSubmit={handleEmailSignIn}>
               <div className="space-y-2">
-                <Label htmlFor="email">Email address</Label>
+                <Label htmlFor="email">邮箱地址</Label>
                 <Input
                   id="email"
                   name="email"
@@ -96,12 +111,12 @@ export default function SignInPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
+                  placeholder="请输入您的邮箱"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">密码</Label>
                 <Input
                   id="password"
                   name="password"
@@ -110,20 +125,20 @@ export default function SignInPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
+                  placeholder="请输入您的密码"
                 />
               </div>
 
               <div className="flex items-center justify-between">
                 <div className="text-sm">
                   <Link href="/reset-password" className="font-medium text-primary hover:text-primary/80">
-                    Forgot your password?
+                    忘记密码？
                   </Link>
                 </div>
               </div>
 
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? 'Signing in...' : 'Sign in'}
+                {loading ? '登录中...' : '登录'}
               </Button>
 
               <div className="relative">
@@ -131,7 +146,7 @@ export default function SignInPage() {
                   <span className="w-full border-t" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                  <span className="bg-background px-2 text-muted-foreground">或者使用以下方式</span>
                 </div>
               </div>
 
@@ -143,7 +158,7 @@ export default function SignInPage() {
                 disabled={loading}
               >
                 <Chrome className="w-4 h-4 mr-2" />
-                Sign in with Google
+                使用 Google 登录
               </Button>
             </form>
           </CardContent>
