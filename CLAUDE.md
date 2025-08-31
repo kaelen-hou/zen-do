@@ -3,11 +3,11 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Development Commands
-
-- `npm run dev` - Start development server with Turbopack
-- `npm run build` - Production build with Turbopack
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
+- package manage: pnpm
+- `pnpm run dev` - Start development server with Turbopack
+- `pnpm run build` - Production build with Turbopack
+- `pnpm run start` - Start production server
+- `pnpm run lint` - Run ESLint
 
 ## Architecture Overview
 
@@ -56,5 +56,11 @@ This is a Next.js 15 todo application with Firebase backend integration, built w
 
 ### Current Development State
 - Core infrastructure complete: Firebase setup, auth context, type definitions, styling system
-- Routes planned but not implemented: /dashboard, /signin, /signup, /todos/[id]/edit
-- Components, hooks, and stores directories exist but are empty - follow modular patterns when implementing
+- Authentication system implemented: signin, signup, dashboard with Firebase Auth
+- Task management implemented: 
+  * Task creation with form validation (zod + react-hook-form)
+  * Task listing and display with priority/status badges
+  * Firestore integration for CRUD operations
+  * Routes: /dashboard, /signin, /signup, /add-task, /tasks
+- UI components: Complete shadcn/ui integration with dark mode support
+- Components, hooks, and stores directories follow modular patterns

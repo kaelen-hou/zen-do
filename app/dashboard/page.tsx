@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -90,8 +91,8 @@ export default function DashboardPage() {
                 <CardDescription>View and manage your todo items</CardDescription>
               </CardHeader>
               <CardContent>
-                <Button variant="outline" className="w-full">
-                  View Tasks →
+                <Button variant="outline" className="w-full" asChild>
+                  <Link href="/tasks">View Tasks →</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -105,8 +106,8 @@ export default function DashboardPage() {
                 <CardDescription>Create a new todo item</CardDescription>
               </CardHeader>
               <CardContent>
-                <Button variant="outline" className="w-full">
-                  Add New →
+                <Button variant="outline" className="w-full" asChild>
+                  <Link href="/add-task">Add New →</Link>
                 </Button>
               </CardContent>
             </Card>
