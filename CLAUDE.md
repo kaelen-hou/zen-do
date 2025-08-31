@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Development Commands
 
 - `npm run dev` - Start development server with Turbopack
-- `npm run build` - Production build with Turbopack  
+- `npm run build` - Production build with Turbopack
 - `npm run start` - Start production server
 - `npm run lint` - Run ESLint
 
@@ -21,6 +21,7 @@ This is a Next.js 15 todo application with Firebase backend integration, built w
 - **Forms**: React Hook Form 7.62.0
 - **Styling**: Tailwind CSS 4.x with custom todo-specific color system
 - **Utilities**: date-fns for date handling, react-firebase-hooks for Firebase integration
+- **Icons**: lucide-react
 
 ### Key Directories
 - `/app/` - Next.js App Router with layout.tsx wrapping AuthProvider
