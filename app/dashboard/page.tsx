@@ -7,10 +7,11 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ModeToggle } from '@/components/mode-toggle';
+import { UserAvatarDropdown } from '@/components/user-avatar-dropdown';
 import { ClipboardList, Plus, BarChart3, Info } from 'lucide-react';
 
 export default function DashboardPage() {
-  const { user, loading, logout } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -18,15 +19,6 @@ export default function DashboardPage() {
       router.push('/signin');
     }
   }, [user, loading, router]);
-
-  const handleLogout = async () => {
-    try {
-      await logout();
-      router.push('/');
-    } catch (error) {
-      console.error('Failed to logout:', error);
-    }
-  };
 
   if (loading) {
     return (
@@ -49,22 +41,8 @@ export default function DashboardPage() {
               <h1 className="text-xl font-semibold">ZenDo Dashboard</h1>
             </div>
             <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                {user.photoURL && (
-                  <img
-                    className="h-8 w-8 rounded-full"
-                    src={user.photoURL}
-                    alt={user.displayName || 'User avatar'}
-                  />
-                )}
-                <span className="text-sm font-medium">
-                  {user.displayName || user.email}
-                </span>
-              </div>
               <ModeToggle />
-              <Button onClick={handleLogout} variant="destructive">
-                Logout
-              </Button>
+              <UserAvatarDropdown />
             </div>
           </div>
         </div>
