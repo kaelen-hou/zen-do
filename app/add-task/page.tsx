@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
-import { ArrowLeft, Plus } from 'lucide-react'
+import { ArrowLeft, Plus, Bot } from 'lucide-react'
 
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
@@ -29,21 +29,24 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { DatePicker } from '@/components/date-picker'
+import { SmartTaskInput } from '@/components/smart-task-input'
 import { createTaskSchema, CreateTaskInput } from '@/lib/validations'
 import { createTodo } from '@/lib/todos'
+import { ParsedTask } from '@/types'
+import { parseISO } from 'date-fns'
 
 const priorityOptions = [
-  { value: 'low', label: 'Low', description: 'Not urgent, can be done later' },
-  { value: 'medium', label: 'Medium', description: 'Normal priority task' },
-  { value: 'high', label: 'High', description: 'Important, needs attention' },
-  { value: 'urgent', label: 'Urgent', description: 'Critical, do immediately' },
+  { value: 'low', label: '低优先级', description: '不紧急，稍后处理' },
+  { value: 'medium', label: '中等优先级', description: '正常优先级任务' },
+  { value: 'high', label: '高优先级', description: '重要，需要关注' },
+  { value: 'urgent', label: '紧急', description: '关键任务，立即处理' },
 ]
 
 const statusOptions = [
-  { value: 'todo', label: 'To Do', description: 'Task not started yet' },
-  { value: 'in-progress', label: 'In Progress', description: 'Currently working on this' },
-  { value: 'done', label: 'Done', description: 'Task completed' },
-  { value: 'archived', label: 'Archived', description: 'Task archived' },
+  { value: 'todo', label: '待办', description: '任务尚未开始' },
+  { value: 'in-progress', label: '进行中', description: '正在处理此任务' },
+  { value: 'done', label: '已完成', description: '任务已完成' },
+  { value: 'archived', label: '已归档', description: '任务已归档' },
 ]
 
 export default function AddTaskPage() {
@@ -51,6 +54,7 @@ export default function AddTaskPage() {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const [useSmartInput, setUseSmartInput] = useState(true)
 
   const form = useForm<CreateTaskInput>({
     resolver: zodResolver(createTaskSchema),
@@ -67,6 +71,35 @@ export default function AddTaskPage() {
       router.push('/signin')
     }
   }, [user, loading, router])
+
+  const handleTaskParsed = (parsedTask: ParsedTask) => {
+    // 将解析的任务数据填入表单
+    form.setValue('title', parsedTask.title)
+    form.setValue('description', parsedTask.description || '')
+    form.setValue('priority', parsedTask.priority)
+    form.setValue('status', 'todo') // 默认状态
+
+    // 处理日期时间
+    if (parsedTask.dueDate) {
+      try {
+        const dueDateTime = parseISO(parsedTask.dueDate)
+        if (parsedTask.dueTime) {
+          const [hours, minutes] = parsedTask.dueTime.split(':').map(Number)
+          dueDateTime.setHours(hours, minutes)
+        }
+        form.setValue('dueDate', dueDateTime)
+      } catch (error) {
+        console.error('日期解析错误:', error)
+      }
+    }
+
+    // 切换到手动编辑模式以便用户确认和修改
+    setUseSmartInput(false)
+  }
+
+  const handleManualInput = () => {
+    setUseSmartInput(false)
+  }
 
   const onSubmit = async (data: CreateTaskInput) => {
     if (!user) return
@@ -112,22 +145,38 @@ export default function AddTaskPage() {
             </Link>
           </Button>
           <div>
-            <h1 className="text-3xl font-bold">Add New Task</h1>
-            <p className="text-muted-foreground">Create a new task to stay organized</p>
+            <h1 className="text-3xl font-bold">创建新任务</h1>
+            <p className="text-muted-foreground">使用 AI 智能解析或手动创建任务来保持高效</p>
           </div>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Plus className="h-5 w-5" />
-              Task Details
-            </CardTitle>
-            <CardDescription>
-              Fill in the information below to create your new task
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+        {useSmartInput ? (
+          <SmartTaskInput 
+            onTaskParsed={handleTaskParsed}
+            onManualInput={handleManualInput}
+          />
+        ) : (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 justify-between">
+                <div className="flex items-center gap-2">
+                  <Plus className="h-5 w-5" />
+                  任务详情
+                </div>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => setUseSmartInput(true)}
+                >
+                  <Bot className="h-4 w-4 mr-2" />
+                  智能解析
+                </Button>
+              </CardTitle>
+              <CardDescription>
+                填写下面的信息来创建您的新任务
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField
@@ -135,12 +184,12 @@ export default function AddTaskPage() {
                   name="title"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Title *</FormLabel>
+                      <FormLabel>任务标题 *</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter task title..." {...field} />
+                        <Input placeholder="输入任务标题..." {...field} />
                       </FormControl>
                       <FormDescription>
-                        A clear, concise title for your task
+                        为您的任务起一个清晰、简洁的标题
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -152,17 +201,17 @@ export default function AddTaskPage() {
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Description</FormLabel>
+                      <FormLabel>任务描述</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Add more details about this task..."
+                          placeholder="添加关于此任务的更多详细信息..."
                           className="resize-none"
                           rows={4}
                           {...field}
                         />
                       </FormControl>
                       <FormDescription>
-                        Optional: Add more context or details about the task
+                        可选：添加关于任务的更多上下文或详细信息
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -175,11 +224,11 @@ export default function AddTaskPage() {
                     name="priority"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Priority</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormLabel>优先级</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select priority" />
+                              <SelectValue placeholder="选择优先级" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -196,7 +245,7 @@ export default function AddTaskPage() {
                           </SelectContent>
                         </Select>
                         <FormDescription>
-                          How urgent is this task?
+                          此任务的紧急程度如何？
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -208,11 +257,11 @@ export default function AddTaskPage() {
                     name="status"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Status</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormLabel>状态</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select status" />
+                              <SelectValue placeholder="选择状态" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -229,7 +278,7 @@ export default function AddTaskPage() {
                           </SelectContent>
                         </Select>
                         <FormDescription>
-                          Current status of the task
+                          任务的当前状态
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -242,16 +291,16 @@ export default function AddTaskPage() {
                   name="dueDate"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Due Date</FormLabel>
+                      <FormLabel>截止日期</FormLabel>
                       <FormControl>
                         <DatePicker
                           value={field.value}
                           onChange={field.onChange}
-                          placeholder="Select a due date"
+                          placeholder="选择截止日期"
                         />
                       </FormControl>
                       <FormDescription>
-                        Optional: When should this task be completed?
+                        可选：此任务应该何时完成？
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -266,16 +315,17 @@ export default function AddTaskPage() {
 
                 <div className="flex gap-3 pt-4">
                   <Button type="submit" disabled={isSubmitting} className="flex-1">
-                    {isSubmitting ? 'Creating...' : 'Create Task'}
+                    {isSubmitting ? '创建中...' : '创建任务'}
                   </Button>
                   <Button type="button" variant="outline" asChild>
-                    <Link href="/dashboard">Cancel</Link>
+                    <Link href="/dashboard">取消</Link>
                   </Button>
                 </div>
               </form>
             </Form>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   )

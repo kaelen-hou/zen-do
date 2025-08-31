@@ -39,19 +39,21 @@ export async function createTodo(userId: string, data: CreateTaskInput): Promise
     const docRef = await addDoc(collection(db, TODOS_COLLECTION), todoData);
     console.log('✅ Document created successfully:', docRef.id);
     return docRef.id;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('❌ DETAILED ERROR INFORMATION:');
-    console.error('- Error code:', error.code);
-    console.error('- Error message:', error.message);
-    console.error('- Error stack:', error.stack);
+    if (error instanceof Error) {
+      console.error('- Error message:', error.message);
+      console.error('- Error stack:', error.stack);
+    }
     console.error('- Full error object:', error);
     
     // Additional Firebase-specific error info
-    if (error.customData) {
-      console.error('- Custom data:', error.customData);
+    if (error && typeof error === 'object' && 'customData' in error) {
+      console.error('- Custom data:', (error as Record<string, unknown>).customData);
     }
     
-    throw new Error(`Failed to create task: ${error.code || error.message}`);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+    throw new Error(`Failed to create task: ${errorMessage}`);
   }
 }
 
