@@ -65,7 +65,7 @@ zen-do/
 
 ## 🚀 部署
 
-### Vercel 部署（推荐）
+### Firebase Hosting
 
 最简单的部署方式是使用 Next.js 创建者提供的 [Vercel 平台](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)。
 
