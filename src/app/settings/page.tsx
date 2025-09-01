@@ -8,7 +8,8 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { ModeToggle } from '@/components/mode-toggle';
-import { User, Camera, Save, ArrowLeft } from 'lucide-react';
+import { PageHeader } from '@/components/common/page-header';
+import { User, Camera, Save, ArrowLeft, Settings } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
@@ -35,17 +36,19 @@ export default function SettingsPage() {
 
   return (
     <div className="container mx-auto max-w-4xl p-6">
-      {/* Header */}
-      <div className="mb-6">
-        <Button variant="ghost" onClick={() => router.back()} className="mb-4">
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          返回
-        </Button>
-        <h1 className="text-3xl font-bold">个人设置</h1>
-        <p className="text-muted-foreground mt-2">
-          管理您的个人资料和应用偏好设置
-        </p>
-      </div>
+      <PageHeader
+        title="个人设置"
+        description="管理您的个人资料和应用偏好设置"
+        icon={Settings}
+        actions={[
+          {
+            label: '返回',
+            icon: ArrowLeft,
+            variant: 'ghost',
+            onClick: () => router.back(),
+          },
+        ]}
+      />
 
       <div className="grid gap-6">
         {/* 个人资料 */}

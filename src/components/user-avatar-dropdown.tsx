@@ -2,14 +2,11 @@
 
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  ActionDropdown,
+  type ActionDropdownItem,
+} from '@/components/common/action-dropdown';
 import { LogOut, Settings } from 'lucide-react';
 
 export function UserAvatarDropdown() {
@@ -27,28 +24,46 @@ export function UserAvatarDropdown() {
 
   if (!user) return null;
 
+  const dropdownItems: ActionDropdownItem[] = [
+    {
+      type: 'label',
+      label: '我的账户',
+    },
+    {
+      type: 'separator',
+    },
+    {
+      type: 'item',
+      label: '个人设置',
+      icon: Settings,
+      onClick: () => router.push('/settings'),
+    },
+    {
+      type: 'separator',
+    },
+    {
+      type: 'item',
+      label: '退出登录',
+      icon: LogOut,
+      onClick: handleLogout,
+      className: 'text-destructive focus:text-destructive',
+    },
+  ];
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <button className="rounded-md p-2 text-white transition-colors hover:bg-white/20">
+    <ActionDropdown
+      trigger={
+        <Button
+          variant="ghost"
+          className="rounded-md p-2 text-white transition-colors hover:bg-white/20"
+        >
           <span className="text-sm font-medium">
             {user.displayName || user.email}
           </span>
-        </button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuLabel>我的账户</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => router.push('/settings')}>
-          <Settings className="mr-2 h-4 w-4" />
-          个人设置
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleLogout} variant="destructive">
-          <LogOut className="mr-2 h-4 w-4" />
-          退出登录
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        </Button>
+      }
+      items={dropdownItems}
+      contentClassName="w-56"
+    />
   );
 }

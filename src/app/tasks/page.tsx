@@ -15,9 +15,9 @@ import {
 
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { TaskCard } from '@/components/task-card';
 import { UserAvatarDropdown } from '@/components/user-avatar-dropdown';
+import { PageHeader } from '@/components/common/page-header';
 import { getTodos } from '@/lib/todos';
 import { Todo } from '@/types';
 
@@ -107,43 +107,40 @@ export default function TasksPage() {
 
       <main className="mx-auto max-w-6xl py-8 sm:px-6 lg:px-8">
         <div className="px-4 py-2 sm:px-0">
-          {/* 快捷操作区 */}
-          <div className="mb-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                  任务列表
-                </h2>
-                <p className="text-muted-foreground">管理您的所有待办事项</p>
-              </div>
-              <div className="flex gap-2">
-                <Button variant="ghost" size="sm" asChild>
-                  <Link href="/dashboard">
-                    <ArrowLeft className="mr-1 h-4 w-4" />
-                    工作台
-                  </Link>
-                </Button>
-                <Button variant="outline" size="sm" asChild>
-                  <Link href="/trash">
-                    <Trash2 className="mr-1 h-4 w-4" />
-                    回收站
-                  </Link>
-                </Button>
-                <Button variant="outline" size="sm" asChild>
-                  <Link href="/statistics">
-                    <BarChart3 className="mr-1 h-4 w-4" />
-                    统计
-                  </Link>
-                </Button>
-                <Button size="sm" asChild>
-                  <Link href="/add-task">
-                    <Plus className="mr-1 h-4 w-4" />
-                    添加任务
-                  </Link>
-                </Button>
-              </div>
-            </div>
-          </div>
+          <PageHeader
+            title="任务列表"
+            description="管理您的所有待办事项"
+            actions={[
+              {
+                label: '工作台',
+                icon: ArrowLeft,
+                variant: 'ghost',
+                size: 'sm',
+                href: '/dashboard',
+              },
+              {
+                label: '回收站',
+                icon: Trash2,
+                variant: 'outline',
+                size: 'sm',
+                href: '/trash',
+              },
+              {
+                label: '统计',
+                icon: BarChart3,
+                variant: 'outline',
+                size: 'sm',
+                href: '/statistics',
+              },
+              {
+                label: '添加任务',
+                icon: Plus,
+                variant: 'default',
+                size: 'sm',
+                href: '/add-task',
+              },
+            ]}
+          />
 
           {/* 任务列表部分 */}
           <div>

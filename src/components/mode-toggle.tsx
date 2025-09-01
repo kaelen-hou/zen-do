@@ -6,11 +6,9 @@ import { useTheme } from 'next-themes';
 
 import { Button } from '@/components/ui/button';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  ActionDropdown,
+  type ActionDropdownItem,
+} from '@/components/common/action-dropdown';
 import { cn } from '@/lib/utils';
 
 export function ModeToggle() {
@@ -22,6 +20,34 @@ export function ModeToggle() {
     setMounted(true);
   }, []);
 
+  const createThemeItem = (
+    themeValue: string,
+    label: string,
+    icon: typeof Sun
+  ): ActionDropdownItem => ({
+    type: 'item',
+    label: (
+      <div className="flex w-full items-center justify-between">
+        <div className="flex items-center gap-2">
+          {React.createElement(icon, { className: 'h-4 w-4' })}
+          <span>{label}</span>
+        </div>
+        {theme === themeValue && <Check className="h-4 w-4" />}
+      </div>
+    ) as React.ReactNode,
+    onClick: () => setTheme(themeValue),
+    className: cn(
+      'flex cursor-pointer items-center justify-between',
+      theme === themeValue && 'bg-accent text-accent-foreground'
+    ),
+  });
+
+  const dropdownItems: ActionDropdownItem[] = [
+    createThemeItem('light', '浅色', Sun),
+    createThemeItem('dark', '深色', Moon),
+    createThemeItem('system', '跟随系统', Monitor),
+  ];
+
   if (!mounted) {
     return (
       <Button variant="outline" size="icon" disabled>
@@ -32,55 +58,16 @@ export function ModeToggle() {
   }
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+    <ActionDropdown
+      trigger={
         <Button variant="outline" size="icon">
           <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
           <span className="sr-only">切换主题</span>
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="min-w-[140px]">
-        <DropdownMenuItem
-          onClick={() => setTheme('light')}
-          className={cn(
-            'flex cursor-pointer items-center justify-between',
-            theme === 'light' && 'bg-accent text-accent-foreground'
-          )}
-        >
-          <div className="flex items-center gap-2">
-            <Sun className="h-4 w-4" />
-            <span>浅色</span>
-          </div>
-          {theme === 'light' && <Check className="h-4 w-4" />}
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => setTheme('dark')}
-          className={cn(
-            'flex cursor-pointer items-center justify-between',
-            theme === 'dark' && 'bg-accent text-accent-foreground'
-          )}
-        >
-          <div className="flex items-center gap-2">
-            <Moon className="h-4 w-4" />
-            <span>深色</span>
-          </div>
-          {theme === 'dark' && <Check className="h-4 w-4" />}
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => setTheme('system')}
-          className={cn(
-            'flex cursor-pointer items-center justify-between',
-            theme === 'system' && 'bg-accent text-accent-foreground'
-          )}
-        >
-          <div className="flex items-center gap-2">
-            <Monitor className="h-4 w-4" />
-            <span>跟随系统</span>
-          </div>
-          {theme === 'system' && <Check className="h-4 w-4" />}
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+      }
+      items={dropdownItems}
+      contentClassName="min-w-[140px]"
+    />
   );
 }

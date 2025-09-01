@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { ArrowLeft, Plus, Bot } from 'lucide-react';
+import { PageHeader } from '@/components/common/page-header';
 
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -144,19 +145,19 @@ export default function AddTaskPage() {
   return (
     <div className="bg-background min-h-screen">
       <div className="container mx-auto max-w-2xl px-4 py-6">
-        <div className="mb-6 flex items-center gap-4">
-          <Button variant="outline" size="icon" asChild>
-            <Link href="/dashboard">
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-          <div>
-            <h1 className="text-3xl font-bold">创建新任务</h1>
-            <p className="text-muted-foreground">
-              使用 AI 智能解析或手动创建任务来保持高效
-            </p>
-          </div>
-        </div>
+        <PageHeader
+          title="创建新任务"
+          description="使用 AI 智能解析或手动创建任务来保持高效"
+          icon={Plus}
+          actions={[
+            {
+              label: '返回',
+              icon: ArrowLeft,
+              variant: 'outline',
+              href: '/dashboard',
+            },
+          ]}
+        />
 
         {useSmartInput ? (
           <SmartTaskInput

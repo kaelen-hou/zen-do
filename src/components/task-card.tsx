@@ -20,14 +20,11 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  ActionDropdown,
+  IconTrigger,
+  type ActionDropdownItem,
+} from '@/components/common/action-dropdown';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -113,6 +110,25 @@ export function TaskCard({ task, className, onTaskUpdated }: TaskCardProps) {
     }
   };
 
+  const dropdownItems: ActionDropdownItem[] = [
+    {
+      type: 'item',
+      label: '编辑任务',
+      icon: Edit3,
+      onClick: handleEdit,
+    },
+    {
+      type: 'separator',
+    },
+    {
+      type: 'item',
+      label: '删除任务',
+      icon: Trash2,
+      onClick: () => setShowDeleteDialog(true),
+      className: 'text-destructive focus:text-destructive',
+    },
+  ];
+
   return (
     <Card className={cn('transition-shadow hover:shadow-md', className)}>
       <CardHeader className="pb-3">
@@ -126,36 +142,17 @@ export function TaskCard({ task, className, onTaskUpdated }: TaskCardProps) {
               <Flag className="mr-1 h-3 w-3" />
               {priorityConfig[task.priority].label}
             </Badge>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="h-8 w-8 p-0"
+            <ActionDropdown
+              trigger={
+                <IconTrigger
+                  icon={MoreHorizontal}
+                  loading={isDeleting}
+                  loadingIcon={Loader2}
                   disabled={isDeleting}
-                >
-                  {isDeleting ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                    <MoreHorizontal className="h-4 w-4" />
-                  )}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={handleEdit}>
-                  <Edit3 className="mr-2 h-4 w-4" />
-                  编辑任务
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={() => setShowDeleteDialog(true)}
-                  className="text-destructive focus:text-destructive"
-                >
-                  <Trash2 className="mr-2 h-4 w-4" />
-                  删除任务
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                />
+              }
+              items={dropdownItems}
+            />
           </div>
         </div>
         {task.description && (
