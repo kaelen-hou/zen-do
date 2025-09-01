@@ -11,6 +11,7 @@ export interface Todo {
   attachments: string[];
   createdAt: Date;
   updatedAt: Date;
+  deletedAt?: Date | null;
   userId: string;
 }
 

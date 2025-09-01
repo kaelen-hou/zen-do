@@ -12,7 +12,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { ModeToggle } from '@/components/mode-toggle';
 import {
   CheckCircle,
   Zap,
@@ -49,17 +48,24 @@ export default function Home() {
       {/* Navigation */}
       <nav className="bg-background/95 supports-[backdrop-filter]:bg-background/60 border-b backdrop-blur">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 justify-between">
+          <div className="flex h-16 items-center justify-between">
             <div className="flex items-center">
-              <div className="flex items-center space-x-2">
-                <div className="bg-primary flex h-8 w-8 items-center justify-center rounded-lg">
-                  <CheckCircle className="text-primary-foreground h-5 w-5" />
+              <div className="flex items-center space-x-3">
+                <div className="relative">
+                  <div className="bg-primary/10 rounded-xl p-2">
+                    <CheckCircle className="text-primary h-6 w-6" />
+                  </div>
+                  <div className="ring-background absolute -top-1 -right-1 h-3 w-3 rounded-full bg-green-500 ring-2"></div>
                 </div>
-                <span className="text-xl font-bold">ZenDo</span>
+                <div>
+                  <span className="text-xl font-bold">ZenDo</span>
+                  <p className="text-muted-foreground text-xs">
+                    智能任务管理平台
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="flex items-center space-x-4">
-              <ModeToggle />
+            <div className="flex items-center space-x-3">
               <Button variant="ghost" asChild>
                 <Link href="/signin">登录</Link>
               </Button>

@@ -2,7 +2,6 @@
 
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { LogOut, User } from 'lucide-react';
+import { LogOut, Settings } from 'lucide-react';
 
 export function UserAvatarDropdown() {
   const { user, logout } = useAuth();
@@ -31,20 +30,7 @@ export function UserAvatarDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="hover:bg-accent hover:text-accent-foreground flex items-center space-x-2 rounded-md p-2 transition-colors">
-          {user.photoURL ? (
-            <Image
-              className="h-8 w-8 rounded-full"
-              src={user.photoURL}
-              alt={user.displayName || 'User avatar'}
-              width={32}
-              height={32}
-            />
-          ) : (
-            <div className="bg-primary/10 flex h-8 w-8 items-center justify-center rounded-full">
-              <User className="h-4 w-4" />
-            </div>
-          )}
+        <button className="rounded-md p-2 text-white transition-colors hover:bg-white/20">
           <span className="text-sm font-medium">
             {user.displayName || user.email}
           </span>
@@ -52,6 +38,11 @@ export function UserAvatarDropdown() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel>我的账户</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => router.push('/settings')}>
+          <Settings className="mr-2 h-4 w-4" />
+          个人设置
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout} variant="destructive">
           <LogOut className="mr-2 h-4 w-4" />

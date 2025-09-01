@@ -96,7 +96,7 @@ export function SmartTaskInput({
     if (!dateStr) return null;
 
     const date = parseISO(dateStr);
-    const dateFormat = format(date, 'MM月dd日', { locale: zhCN });
+    const dateFormat = format(date, 'yyyy-MM-dd', { locale: zhCN });
     const timeFormat = timeStr || '';
 
     return timeFormat ? `${dateFormat} ${timeFormat}` : dateFormat;
