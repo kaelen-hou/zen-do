@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
+import { useTranslations, useLocale } from 'next-intl';
 import { Calendar, Clock, Sparkles, RefreshCw } from 'lucide-react';
 import {
   Card,
@@ -26,13 +27,15 @@ interface TodayInHistoryResponse {
 }
 
 export function DashboardHero() {
+  const t = useTranslations();
+  const locale = useLocale();
   const [historyData, setHistoryData] = useState<TodayInHistoryResponse | null>(
     null
   );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchTodayInHistory = async () => {
+  const fetchTodayInHistory = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -56,25 +59,26 @@ export function DashboardHero() {
       }
     } catch (err) {
       console.error('Failed to fetch today in history:', err);
-      setError(err instanceof Error ? err.message : '获取历史事件失败');
+      setError(err instanceof Error ? err.message : t('common.loading'));
     } finally {
       setLoading(false);
     }
-  };
+  }, [t]);
 
   useEffect(() => {
     fetchTodayInHistory();
-  }, []);
+  }, [fetchTodayInHistory]);
 
   const getCurrentDateTime = () => {
     const now = new Date();
-    const date = now.toLocaleDateString('zh-CN', {
+    const localeForDate = locale === 'en' ? 'en-US' : 'zh-CN';
+    const date = now.toLocaleDateString(localeForDate, {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
       weekday: 'long',
     });
-    const time = now.toLocaleTimeString('zh-CN', {
+    const time = now.toLocaleTimeString(localeForDate, {
       hour: '2-digit',
       minute: '2-digit',
     });
@@ -95,7 +99,7 @@ export function DashboardHero() {
           <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
             <div className="mb-2 sm:mb-0">
               <h1 className="text-2xl font-bold text-gray-900 md:text-3xl dark:text-gray-100">
-                欢迎回来！
+                {t('dashboard.welcomeBack')}
               </h1>
               <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
                 <div className="flex items-center gap-1">
@@ -120,7 +124,7 @@ export function DashboardHero() {
               ) : (
                 <RefreshCw className="h-4 w-4" />
               )}
-              <span className="ml-2">刷新</span>
+              <span className="ml-2">{t('dashboard.refresh')}</span>
             </Button>
           </div>
 
@@ -129,7 +133,7 @@ export function DashboardHero() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Sparkles className="h-5 w-5 text-yellow-500" />
-                历史上的今天
+                {t('dashboard.todayInHistory')}
                 {historyData && (
                   <span className="text-muted-foreground text-sm font-normal">
                     {historyData.date}
@@ -137,10 +141,10 @@ export function DashboardHero() {
                 )}
               </CardTitle>
               <CardDescription>
-                了解历史，启发今天
+                {t('dashboard.todayInHistoryDesc')}
                 {historyData?.cached && (
                   <span className="ml-2 text-xs text-blue-600 dark:text-blue-400">
-                    (已缓存)
+                    {t('dashboard.cached')}
                   </span>
                 )}
               </CardDescription>
@@ -150,13 +154,13 @@ export function DashboardHero() {
                 <div className="flex items-center justify-center py-8">
                   <div className="text-muted-foreground flex items-center gap-2">
                     <RefreshCw className="h-4 w-4 animate-spin" />
-                    <span>正在获取历史事件...</span>
+                    <span>{t('dashboard.loading')}</span>
                   </div>
                 </div>
               ) : error ? (
                 <div className="py-6 text-center">
                   <p className="text-muted-foreground mb-2 text-sm">
-                    暂时无法获取历史事件
+                    {t('dashboard.errorMessage')}
                   </p>
                   <p className="text-xs text-red-500">{error}</p>
                 </div>
@@ -186,7 +190,7 @@ export function DashboardHero() {
               ) : (
                 <div className="py-6 text-center">
                   <p className="text-muted-foreground text-sm">
-                    暂无历史事件数据
+                    {t('dashboard.noData')}
                   </p>
                 </div>
               )}

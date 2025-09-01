@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,16 +9,23 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { ModeToggle } from '@/components/mode-toggle';
+import { LanguageSwitcher } from '@/components/language-switcher';
 import { PageHeader } from '@/components/common/page-header';
 import { User, Camera, Save, ArrowLeft, Settings } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { AvatarUploadDialog } from '@/components/avatar-upload-dialog';
 
 export default function SettingsPage() {
   const { user, updateUserProfile } = useAuth();
-  const router = useRouter();
+  const t = useTranslations();
   const [displayName, setDisplayName] = useState(user?.displayName || '');
   const [isUpdating, setIsUpdating] = useState(false);
+
+  const handleCancel = () => {
+    // 获取当前URL中的locale，确保导航到正确的语言版本
+    const currentPath = window.location.pathname;
+    const currentLocale = currentPath.startsWith('/en') ? 'en' : 'zh';
+    window.location.href = `/${currentLocale}/dashboard`;
+  };
 
   const handleUpdateProfile = async () => {
     if (!displayName.trim()) return;
@@ -37,15 +45,15 @@ export default function SettingsPage() {
   return (
     <div className="container mx-auto max-w-4xl p-6">
       <PageHeader
-        title="个人设置"
-        description="管理您的个人资料和应用偏好设置"
+        title={t('settings.title')}
+        description={t('settings.description')}
         icon={Settings}
         actions={[
           {
-            label: '返回',
+            label: t('common.cancel'),
             icon: ArrowLeft,
             variant: 'ghost',
-            onClick: () => router.back(),
+            onClick: handleCancel,
           },
         ]}
       />
@@ -56,7 +64,7 @@ export default function SettingsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <User className="h-5 w-5" />
-              个人资料
+              {t('settings.profile')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -66,7 +74,7 @@ export default function SettingsPage() {
                 {user.photoURL ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    className="h-20 w-20 rounded-full object-cover border-2 border-gray-200"
+                    className="h-20 w-20 rounded-full border-2 border-gray-200 object-cover"
                     src={user.photoURL}
                     alt={user.displayName || '用户头像'}
                   />
@@ -91,7 +99,7 @@ export default function SettingsPage() {
                 </p>
                 <p className="text-muted-foreground text-sm">{user.email}</p>
                 <p className="text-muted-foreground mt-1 text-xs">
-                  点击相机图标可更换头像
+                  {t('settings.avatarClickHint')}
                 </p>
               </div>
             </div>
@@ -100,13 +108,13 @@ export default function SettingsPage() {
 
             {/* 昵称编辑 */}
             <div className="space-y-2">
-              <Label htmlFor="displayName">昵称</Label>
+              <Label htmlFor="displayName">{t('settings.nickname')}</Label>
               <div className="flex space-x-2">
                 <Input
                   id="displayName"
                   value={displayName}
                   onChange={e => setDisplayName(e.target.value)}
-                  placeholder="请输入您的昵称"
+                  placeholder={t('settings.nicknamePlaceholder')}
                 />
                 <Button
                   onClick={handleUpdateProfile}
@@ -117,21 +125,23 @@ export default function SettingsPage() {
                   }
                 >
                   <Save className="mr-2 h-4 w-4" />
-                  {isUpdating ? '保存中...' : '保存'}
+                  {isUpdating ? t('settings.saving') : t('settings.save')}
                 </Button>
               </div>
             </div>
 
             {/* 邮箱 (只读) */}
             <div className="space-y-2">
-              <Label htmlFor="email">邮箱</Label>
+              <Label htmlFor="email">{t('settings.email')}</Label>
               <Input
                 id="email"
                 value={user.email || ''}
                 disabled
                 className="bg-muted"
               />
-              <p className="text-muted-foreground text-xs">邮箱地址无法修改</p>
+              <p className="text-muted-foreground text-xs">
+                {t('settings.emailReadonly')}
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -139,15 +149,15 @@ export default function SettingsPage() {
         {/* 应用设置 */}
         <Card>
           <CardHeader>
-            <CardTitle>应用设置</CardTitle>
+            <CardTitle>{t('settings.appSettings')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* 主题设置 */}
             <div className="flex items-center justify-between">
               <div>
-                <Label className="text-base">主题模式</Label>
+                <Label className="text-base">{t('settings.themeMode')}</Label>
                 <p className="text-muted-foreground text-sm">
-                  选择应用的外观主题
+                  {t('settings.themeModeDesc')}
                 </p>
               </div>
               <ModeToggle />
@@ -158,14 +168,13 @@ export default function SettingsPage() {
             {/* 语言设置 */}
             <div className="flex items-center justify-between">
               <div>
-                <Label className="text-base">语言</Label>
+                <Label className="text-base">{t('settings.language')}</Label>
                 <p className="text-muted-foreground text-sm">
-                  选择应用界面语言
+                  {t('settings.languageDesc')}
                 </p>
               </div>
-              <div className="text-muted-foreground text-sm">中文 (简体)</div>
+              <LanguageSwitcher />
             </div>
-            <p className="text-muted-foreground text-xs">多语言支持即将推出</p>
           </CardContent>
         </Card>
       </div>

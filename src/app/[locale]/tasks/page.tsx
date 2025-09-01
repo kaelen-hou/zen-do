@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { useRouter, Link } from '@/i18n/routing';
 import {
   ArrowLeft,
   Plus,

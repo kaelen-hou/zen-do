@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
+import { useRouter, Link } from '@/i18n/routing';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
 import { ArrowLeft, Save, Loader2 } from 'lucide-react';
 
 import { useAuth } from '@/contexts/AuthContext';

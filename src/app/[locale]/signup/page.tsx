@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { useRouter, Link } from '@/i18n/routing';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,12 +15,14 @@ import {
 } from '@/components/ui/card';
 import { Chrome } from 'lucide-react';
 
-export default function SignInPage() {
+export default function SignUpPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [displayName, setDisplayName] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signIn, signInWithGoogle, user } = useAuth();
+  const { signUp, signInWithGoogle, user } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -30,38 +31,46 @@ export default function SignInPage() {
     }
   }, [user, router]);
 
-  const handleEmailSignIn = async (e: React.FormEvent) => {
+  const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !password) {
-      setError('请填写所有字段');
+    if (!email || !password || !confirmPassword) {
+      setError('请填写所有必填字段');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError('两次输入的密码不一致');
+      return;
+    }
+
+    if (password.length < 6) {
+      setError('密码长度至少需要6位');
       return;
     }
 
     try {
       setLoading(true);
       setError('');
-      await signIn(email, password);
+      await signUp(email, password, displayName || undefined);
       router.push('/dashboard');
     } catch (error) {
       // 转换 Firebase 错误为中文提示
       const errorMessage = (error as Error).message;
-      if (errorMessage.includes('user-not-found')) {
-        setError('用户不存在，请检查邮箱地址');
-      } else if (errorMessage.includes('wrong-password')) {
-        setError('密码错误，请重试');
+      if (errorMessage.includes('email-already-in-use')) {
+        setError('该邮箱已被注册，请使用其他邮箱或直接登录');
       } else if (errorMessage.includes('invalid-email')) {
         setError('邮箱格式不正确');
-      } else if (errorMessage.includes('too-many-requests')) {
-        setError('登录尝试次数过多，请稍后再试');
+      } else if (errorMessage.includes('weak-password')) {
+        setError('密码强度不够，请设置更复杂的密码');
       } else {
-        setError('登录失败，请检查您的凭据');
+        setError('注册失败，请重试');
       }
     } finally {
       setLoading(false);
     }
   };
 
-  const handleGoogleSignIn = async () => {
+  const handleGoogleSignUp = async () => {
     try {
       setLoading(true);
       setError('');
@@ -81,14 +90,14 @@ export default function SignInPage() {
     <div className="bg-background flex min-h-screen flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight">登录您的账户</h2>
+          <h2 className="text-3xl font-bold tracking-tight">创建您的账户</h2>
           <p className="text-muted-foreground mt-2 text-sm">
-            还没有账户？{' '}
+            已有账户？{' '}
             <Link
-              href="/signup"
+              href="/signin"
               className="text-primary hover:text-primary/80 font-medium"
             >
-              立即注册
+              立即登录
             </Link>
           </p>
         </div>
@@ -97,8 +106,8 @@ export default function SignInPage() {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <Card>
           <CardHeader>
-            <CardTitle>欢迎回来</CardTitle>
-            <CardDescription>请输入您的登录信息</CardDescription>
+            <CardTitle>开始使用</CardTitle>
+            <CardDescription>创建账户，开始管理您的任务</CardDescription>
           </CardHeader>
           <CardContent>
             {error && (
@@ -107,7 +116,20 @@ export default function SignInPage() {
               </div>
             )}
 
-            <form className="space-y-4" onSubmit={handleEmailSignIn}>
+            <form className="space-y-4" onSubmit={handleSignUp}>
+              <div className="space-y-2">
+                <Label htmlFor="displayName">显示名称（可选）</Label>
+                <Input
+                  id="displayName"
+                  name="displayName"
+                  type="text"
+                  autoComplete="name"
+                  value={displayName}
+                  onChange={e => setDisplayName(e.target.value)}
+                  placeholder="请输入您的显示名称"
+                />
+              </div>
+
               <div className="space-y-2">
                 <Label htmlFor="email">邮箱地址</Label>
                 <Input
@@ -128,27 +150,30 @@ export default function SignInPage() {
                   id="password"
                   name="password"
                   type="password"
-                  autoComplete="current-password"
+                  autoComplete="new-password"
                   required
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  placeholder="请输入您的密码"
+                  placeholder="请输入密码（至少6位）"
                 />
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="text-sm">
-                  <Link
-                    href="/reset-password"
-                    className="text-primary hover:text-primary/80 font-medium"
-                  >
-                    忘记密码？
-                  </Link>
-                </div>
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword">确认密码</Label>
+                <Input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type="password"
+                  autoComplete="new-password"
+                  required
+                  value={confirmPassword}
+                  onChange={e => setConfirmPassword(e.target.value)}
+                  placeholder="请再次输入密码"
+                />
               </div>
 
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? '登录中...' : '登录'}
+                {loading ? '创建账户中...' : '创建账户'}
               </Button>
 
               <div className="relative">
@@ -166,11 +191,11 @@ export default function SignInPage() {
                 type="button"
                 variant="outline"
                 className="w-full"
-                onClick={handleGoogleSignIn}
+                onClick={handleGoogleSignUp}
                 disabled={loading}
               >
                 <Chrome className="mr-2 h-4 w-4" />
-                使用 Google 登录
+                使用 Google 注册
               </Button>
             </form>
           </CardContent>

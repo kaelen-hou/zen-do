@@ -1,10 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, Link } from '@/i18n/routing';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
 import { ArrowLeft, Plus, Bot } from 'lucide-react';
 import { PageHeader } from '@/components/common/page-header';
 

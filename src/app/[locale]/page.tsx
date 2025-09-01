@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { useRouter } from '@/i18n/routing';
+import { Link } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,6 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { LanguageSwitcher } from '@/components/language-switcher';
 import {
   CheckCircle,
   Zap,
@@ -28,6 +30,7 @@ import {
 export default function Home() {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const t = useTranslations();
 
   useEffect(() => {
     if (!loading && user) {
@@ -58,19 +61,20 @@ export default function Home() {
                   <div className="ring-background absolute -top-1 -right-1 h-3 w-3 rounded-full bg-green-500 ring-2"></div>
                 </div>
                 <div>
-                  <span className="text-xl font-bold">ZenDo</span>
+                  <span className="text-xl font-bold">{t('home.title')}</span>
                   <p className="text-muted-foreground text-xs">
-                    智能任务管理平台
+                    {t('home.subtitle')}
                   </p>
                 </div>
               </div>
             </div>
             <div className="flex items-center space-x-3">
+              <LanguageSwitcher />
               <Button variant="ghost" asChild>
-                <Link href="/signin">登录</Link>
+                <Link href="/signin">{t('navigation.login')}</Link>
               </Button>
               <Button asChild>
-                <Link href="/signup">免费开始</Link>
+                <Link href="/signup">{t('navigation.signup')}</Link>
               </Button>
             </div>
           </div>
@@ -83,23 +87,21 @@ export default function Home() {
           <div className="text-center">
             <div className="bg-primary/10 text-primary mb-8 inline-flex items-center rounded-full px-4 py-2 text-sm">
               <Sparkles className="mr-2 h-4 w-4" />
-              专为现代团队打造的智能任务管理
+              {t('home.subtitle')}
             </div>
             <h1 className="mb-8 text-4xl font-bold tracking-tight md:text-6xl lg:text-7xl">
-              让任务管理
+              {t('home.heroTitle')}
               <span className="from-primary to-secondary block bg-gradient-to-r bg-clip-text text-transparent">
-                变得简单高效
+                {t('home.heroTitleHighlight')}
               </span>
             </h1>
             <p className="text-muted-foreground mx-auto mb-12 max-w-3xl text-xl">
-              ZenDo
-              是一款现代化的任务管理应用，支持实时同步、文件附件、团队协作。
-              让你专注于重要的事情，提升工作效率。
+              {t('home.heroDescription')}
             </p>
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
               <Button size="lg" className="px-8 py-6 text-lg" asChild>
                 <Link href="/signup">
-                  免费开始使用
+                  {t('home.getStarted')}
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
@@ -109,7 +111,7 @@ export default function Home() {
                 className="px-8 py-6 text-lg"
                 asChild
               >
-                <Link href="/signin">立即登录</Link>
+                <Link href="/signin">{t('home.login')}</Link>
               </Button>
             </div>
           </div>
@@ -121,10 +123,10 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-16 text-center">
             <h2 className="mb-4 text-3xl font-bold md:text-4xl">
-              强大功能，简单易用
+              {t('home.featuresTitle')}
             </h2>
             <p className="text-muted-foreground mx-auto max-w-2xl text-xl">
-              我们精心设计了每一个功能，让任务管理变得前所未有的高效
+              {t('home.featuresSubtitle')}
             </p>
           </div>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -133,10 +135,8 @@ export default function Home() {
                 <div className="bg-primary/10 mb-4 flex h-12 w-12 items-center justify-center rounded-lg">
                   <Zap className="text-primary h-6 w-6" />
                 </div>
-                <CardTitle>实时同步</CardTitle>
-                <CardDescription>
-                  在任何设备上的更改都会实时同步到其他设备，让你随时随地保持工作状态
-                </CardDescription>
+                <CardTitle>{t('home.realtimeSync')}</CardTitle>
+                <CardDescription>{t('home.realtimeSyncDesc')}</CardDescription>
               </CardHeader>
             </Card>
 
@@ -145,9 +145,9 @@ export default function Home() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-blue-500/10">
                   <FileText className="h-6 w-6 text-blue-500" />
                 </div>
-                <CardTitle>文件附件</CardTitle>
+                <CardTitle>{t('home.fileAttachments')}</CardTitle>
                 <CardDescription>
-                  支持为任务添加文件附件，所有文件都安全存储在云端，永不丢失
+                  {t('home.fileAttachmentsDesc')}
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -157,9 +157,9 @@ export default function Home() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-blue-600/10">
                   <Users className="h-6 w-6 text-blue-600" />
                 </div>
-                <CardTitle>团队协作</CardTitle>
+                <CardTitle>{t('home.teamCollaboration')}</CardTitle>
                 <CardDescription>
-                  实时显示团队成员状态，支持任务分配和协作，让团队更高效
+                  {t('home.teamCollaborationDesc')}
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -169,9 +169,9 @@ export default function Home() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-blue-700/10">
                   <Target className="h-6 w-6 text-blue-700" />
                 </div>
-                <CardTitle>优先级管理</CardTitle>
+                <CardTitle>{t('home.priorityManagement')}</CardTitle>
                 <CardDescription>
-                  智能优先级系统帮你专注最重要的任务，合理安排时间
+                  {t('home.priorityManagementDesc')}
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -181,10 +181,8 @@ export default function Home() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-blue-500/10">
                   <Shield className="h-6 w-6 text-blue-600" />
                 </div>
-                <CardTitle>数据安全</CardTitle>
-                <CardDescription>
-                  企业级安全保障，数据加密存储，支持 Google 和邮箱登录
-                </CardDescription>
+                <CardTitle>{t('home.dataSecurity')}</CardTitle>
+                <CardDescription>{t('home.dataSecurityDesc')}</CardDescription>
               </CardHeader>
             </Card>
 
@@ -193,10 +191,8 @@ export default function Home() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-blue-800/10">
                   <Smartphone className="h-6 w-6 text-blue-800" />
                 </div>
-                <CardTitle>跨平台支持</CardTitle>
-                <CardDescription>
-                  支持 Web、手机端，响应式设计适配所有屏幕尺寸
-                </CardDescription>
+                <CardTitle>{t('home.crossPlatform')}</CardTitle>
+                <CardDescription>{t('home.crossPlatformDesc')}</CardDescription>
               </CardHeader>
             </Card>
           </div>
@@ -209,7 +205,7 @@ export default function Home() {
           <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
             <div>
               <h2 className="mb-6 text-3xl font-bold md:text-4xl">
-                为什么选择 ZenDo？
+                {t('home.whyChooseTitle')}
               </h2>
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
@@ -218,10 +214,10 @@ export default function Home() {
                   </div>
                   <div>
                     <h3 className="mb-2 text-lg font-semibold">
-                      提升 40% 工作效率
+                      {t('home.improveEfficiency')}
                     </h3>
                     <p className="text-muted-foreground">
-                      智能任务排序和提醒功能，让你专注于最重要的事情
+                      {t('home.improveEfficiencyDesc')}
                     </p>
                   </div>
                 </div>
@@ -230,9 +226,11 @@ export default function Home() {
                     <CheckCircle className="h-4 w-4 text-white" />
                   </div>
                   <div>
-                    <h3 className="mb-2 text-lg font-semibold">零学习成本</h3>
+                    <h3 className="mb-2 text-lg font-semibold">
+                      {t('home.zeroLearning')}
+                    </h3>
                     <p className="text-muted-foreground">
-                      直观的界面设计，新手也能快速上手使用
+                      {t('home.zeroLearningDesc')}
                     </p>
                   </div>
                 </div>
@@ -241,9 +239,11 @@ export default function Home() {
                     <CheckCircle className="h-4 w-4 text-white" />
                   </div>
                   <div>
-                    <h3 className="mb-2 text-lg font-semibold">完全免费开始</h3>
+                    <h3 className="mb-2 text-lg font-semibold">
+                      {t('home.freeTrial')}
+                    </h3>
                     <p className="text-muted-foreground">
-                      免费版本包含所有核心功能，满足个人和小团队需求
+                      {t('home.freeTrialDesc')}
                     </p>
                   </div>
                 </div>
@@ -254,7 +254,7 @@ export default function Home() {
                 <div className="text-center">
                   <div className="mb-4 text-6xl">📊</div>
                   <p className="text-lg font-medium">
-                    在这里展示产品截图或演示视频
+                    {t('home.demoPlaceholder')}
                   </p>
                 </div>
               </div>
@@ -267,8 +267,12 @@ export default function Home() {
       <section className="bg-background py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-16 text-center">
-            <h2 className="mb-4 text-3xl font-bold md:text-4xl">用户评价</h2>
-            <p className="text-muted-foreground text-xl">看看其他用户怎么说</p>
+            <h2 className="mb-4 text-3xl font-bold md:text-4xl">
+              {t('home.testimonialsTitle')}
+            </h2>
+            <p className="text-muted-foreground text-xl">
+              {t('home.testimonialsSubtitle')}
+            </p>
           </div>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             <Card>
@@ -282,43 +286,16 @@ export default function Home() {
                   ))}
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  &ldquo;ZenDo
-                  完全改变了我的工作方式。实时同步让我在家办公时也能与团队保持紧密协作。&rdquo;
+                  &ldquo;{t('home.testimonial1')}&rdquo;
                 </p>
                 <div className="flex items-center">
                   <div className="bg-primary/10 mr-3 flex h-10 w-10 items-center justify-center rounded-full">
                     <Users className="text-primary h-5 w-5" />
                   </div>
                   <div>
-                    <p className="font-medium">张经理</p>
-                    <p className="text-muted-foreground text-sm">产品经理</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="pt-6">
-                <div className="mb-4 flex items-center">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="h-5 w-5 fill-yellow-400 text-yellow-400"
-                    />
-                  ))}
-                </div>
-                <p className="text-muted-foreground mb-4">
-                  &ldquo;作为自由职业者，我需要管理多个项目。ZenDo
-                  的优先级功能让我能更好地安排时间。&rdquo;
-                </p>
-                <div className="flex items-center">
-                  <div className="mr-3 flex h-10 w-10 items-center justify-center rounded-full bg-blue-500/10">
-                    <Users className="h-5 w-5 text-blue-500" />
-                  </div>
-                  <div>
-                    <p className="font-medium">李设计师</p>
+                    <p className="font-medium">{t('home.testimonial1Name')}</p>
                     <p className="text-muted-foreground text-sm">
-                      UI/UX 设计师
+                      {t('home.testimonial1Title')}
                     </p>
                   </div>
                 </div>
@@ -336,15 +313,44 @@ export default function Home() {
                   ))}
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  &ldquo;界面简洁美观，功能强大而不复杂。我们团队的效率提升了很多。&rdquo;
+                  &ldquo;{t('home.testimonial2')}&rdquo;
+                </p>
+                <div className="flex items-center">
+                  <div className="mr-3 flex h-10 w-10 items-center justify-center rounded-full bg-blue-500/10">
+                    <Users className="h-5 w-5 text-blue-500" />
+                  </div>
+                  <div>
+                    <p className="font-medium">{t('home.testimonial2Name')}</p>
+                    <p className="text-muted-foreground text-sm">
+                      {t('home.testimonial2Title')}
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="pt-6">
+                <div className="mb-4 flex items-center">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className="h-5 w-5 fill-yellow-400 text-yellow-400"
+                    />
+                  ))}
+                </div>
+                <p className="text-muted-foreground mb-4">
+                  &ldquo;{t('home.testimonial3')}&rdquo;
                 </p>
                 <div className="flex items-center">
                   <div className="mr-3 flex h-10 w-10 items-center justify-center rounded-full bg-blue-600/10">
                     <Users className="h-5 w-5 text-blue-600" />
                   </div>
                   <div>
-                    <p className="font-medium">王开发</p>
-                    <p className="text-muted-foreground text-sm">前端工程师</p>
+                    <p className="font-medium">{t('home.testimonial3Name')}</p>
+                    <p className="text-muted-foreground text-sm">
+                      {t('home.testimonial3Title')}
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -357,11 +363,9 @@ export default function Home() {
       <section className="dark:from-primary dark:to-secondary bg-gradient-to-br from-blue-600 to-blue-800 py-24">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
           <h2 className="mb-6 text-3xl font-bold text-white md:text-4xl">
-            准备开始高效工作了吗？
+            {t('home.ctaTitle')}
           </h2>
-          <p className="mb-12 text-xl text-white/80">
-            加入数千名用户，让任务管理变得简单高效
-          </p>
+          <p className="mb-12 text-xl text-white/80">{t('home.ctaSubtitle')}</p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <Button
               size="lg"
@@ -370,7 +374,7 @@ export default function Home() {
               asChild
             >
               <Link href="/signup">
-                免费开始使用
+                {t('home.getStarted')}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
@@ -380,12 +384,10 @@ export default function Home() {
               className="border-2 border-white/80 bg-white/10 px-8 py-6 text-lg text-white backdrop-blur-sm hover:bg-white hover:text-blue-600"
               asChild
             >
-              <Link href="/signin">立即登录</Link>
+              <Link href="/signin">{t('home.login')}</Link>
             </Button>
           </div>
-          <p className="mt-8 text-sm text-white/60">
-            免费版本 · 无需信用卡 · 30秒快速注册
-          </p>
+          <p className="mt-8 text-sm text-white/60">{t('home.freeFeatures')}</p>
         </div>
       </section>
 
@@ -404,30 +406,30 @@ export default function Home() {
                 href="#"
                 className="hover:text-foreground transition-colors"
               >
-                功能介绍
+                {t('home.footerFeatures')}
               </Link>
               <Link
                 href="#"
                 className="hover:text-foreground transition-colors"
               >
-                定价
+                {t('home.footerPricing')}
               </Link>
               <Link
                 href="#"
                 className="hover:text-foreground transition-colors"
               >
-                帮助中心
+                {t('home.footerHelp')}
               </Link>
               <Link
-                href="#"
+                href={`mailto:${t('home.contactEmail')}`}
                 className="hover:text-foreground transition-colors"
               >
-                联系我们
+                {t('home.footerContact')}
               </Link>
             </div>
           </div>
           <div className="text-muted-foreground mt-8 border-t pt-8 text-center text-sm">
-            <p>&copy; 2024 ZenDo. 保留所有权利。</p>
+            <p>{t('home.footerCopyright')}</p>
           </div>
         </div>
       </footer>

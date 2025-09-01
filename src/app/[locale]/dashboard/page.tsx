@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { useRouter, Link } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 import { format } from 'date-fns';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -14,53 +14,57 @@ import { ClipboardList, Plus, BarChart3, Trash2, Clock } from 'lucide-react';
 import { getTodos } from '@/lib/todos';
 import { Todo } from '@/types';
 
-const priorityConfig = {
-  low: {
-    label: '低',
-    className:
-      'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-  },
-  medium: {
-    label: '中',
-    className:
-      'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
-  },
-  high: {
-    label: '高',
-    className:
-      'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300',
-  },
-  urgent: {
-    label: '急',
-    className: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
-  },
-};
-
-const statusConfig = {
-  todo: {
-    label: '待办',
-    className: 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300',
-  },
-  'in-progress': {
-    label: '进行中',
-    className: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
-  },
-  done: {
-    label: '已完成',
-    className:
-      'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-  },
-  archived: {
-    label: '已归档',
-    className: 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300',
-  },
-};
-
 export default function DashboardPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const t = useTranslations();
   const [recentTasks, setRecentTasks] = useState<Todo[]>([]);
   const [tasksLoading, setTasksLoading] = useState(false);
+
+  const priorityConfig = {
+    low: {
+      label: t('priorities.low'),
+      className:
+        'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+    },
+    medium: {
+      label: t('priorities.medium'),
+      className:
+        'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+    },
+    high: {
+      label: t('priorities.high'),
+      className:
+        'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300',
+    },
+    urgent: {
+      label: t('priorities.urgent'),
+      className: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
+    },
+  };
+
+  const statusConfig = {
+    todo: {
+      label: t('statuses.todo'),
+      className:
+        'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300',
+    },
+    'in-progress': {
+      label: t('statuses.inProgress'),
+      className:
+        'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+    },
+    done: {
+      label: t('statuses.done'),
+      className:
+        'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+    },
+    archived: {
+      label: t('statuses.archived'),
+      className:
+        'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300',
+    },
+  };
 
   useEffect(() => {
     if (!loading && !user) {
@@ -134,9 +138,11 @@ export default function DashboardPage() {
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold text-white">
-                    ZenDo 工作台
+                    {t('dashboard.title')}
                   </h1>
-                  <p className="text-sm text-white/70">高效任务管理平台</p>
+                  <p className="text-sm text-white/70">
+                    {t('dashboard.subtitle')}
+                  </p>
                 </div>
               </div>
             </div>
@@ -164,7 +170,7 @@ export default function DashboardPage() {
           {/* 快捷操作区 */}
           <div className="mb-12">
             <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-gray-100">
-              快捷操作
+              {t('dashboard.quickActions')}
             </h2>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {/* 我的任务卡片 */}
@@ -176,7 +182,9 @@ export default function DashboardPage() {
                         <ClipboardList className="h-6 w-6" />
                       </div>
                       <div className="text-right">
-                        <div className="text-sm opacity-80">待办事项</div>
+                        <div className="text-sm opacity-80">
+                          {t('dashboard.todoItems')}
+                        </div>
                         <div className="text-2xl font-bold">
                           {recentTasks.length}
                         </div>
@@ -185,8 +193,12 @@ export default function DashboardPage() {
                   </CardHeader>
                   <CardContent className="pt-0">
                     <div>
-                      <div className="text-lg font-semibold">我的任务</div>
-                      <div className="text-sm opacity-80">管理您的待办事项</div>
+                      <div className="text-lg font-semibold">
+                        {t('dashboard.myTasks')}
+                      </div>
+                      <div className="text-sm opacity-80">
+                        {t('dashboard.myTasksDesc')}
+                      </div>
                     </div>
                   </CardContent>
                   <div className="absolute -top-4 -right-4 h-20 w-20 rounded-full bg-white/10"></div>
@@ -202,15 +214,21 @@ export default function DashboardPage() {
                         <Plus className="h-6 w-6" />
                       </div>
                       <div className="text-right">
-                        <div className="text-sm opacity-80">创建</div>
+                        <div className="text-sm opacity-80">
+                          {t('dashboard.create')}
+                        </div>
                         <div className="text-2xl font-bold">+</div>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent className="pt-0">
                     <div>
-                      <div className="text-lg font-semibold">添加任务</div>
-                      <div className="text-sm opacity-80">创建新的待办事项</div>
+                      <div className="text-lg font-semibold">
+                        {t('dashboard.addTask')}
+                      </div>
+                      <div className="text-sm opacity-80">
+                        {t('dashboard.addTaskDesc')}
+                      </div>
                     </div>
                   </CardContent>
                   <div className="absolute -top-4 -right-4 h-20 w-20 rounded-full bg-white/10"></div>
@@ -226,15 +244,21 @@ export default function DashboardPage() {
                         <BarChart3 className="h-6 w-6" />
                       </div>
                       <div className="text-right">
-                        <div className="text-sm opacity-80">统计</div>
+                        <div className="text-sm opacity-80">
+                          {t('dashboard.statistics')}
+                        </div>
                         <div className="text-2xl font-bold">📊</div>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent className="pt-0">
                     <div>
-                      <div className="text-lg font-semibold">数据分析</div>
-                      <div className="text-sm opacity-80">追踪您的工作效率</div>
+                      <div className="text-lg font-semibold">
+                        {t('dashboard.dataAnalysis')}
+                      </div>
+                      <div className="text-sm opacity-80">
+                        {t('dashboard.dataAnalysisDesc')}
+                      </div>
                     </div>
                   </CardContent>
                   <div className="absolute -top-4 -right-4 h-20 w-20 rounded-full bg-white/10"></div>
@@ -250,15 +274,21 @@ export default function DashboardPage() {
                         <Trash2 className="h-6 w-6" />
                       </div>
                       <div className="text-right">
-                        <div className="text-sm opacity-80">回收</div>
+                        <div className="text-sm opacity-80">
+                          {t('dashboard.recycle')}
+                        </div>
                         <div className="text-2xl font-bold">🗑️</div>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent className="pt-0">
                     <div>
-                      <div className="text-lg font-semibold">回收站</div>
-                      <div className="text-sm opacity-80">恢复或删除任务</div>
+                      <div className="text-lg font-semibold">
+                        {t('dashboard.trash')}
+                      </div>
+                      <div className="text-sm opacity-80">
+                        {t('dashboard.trashDesc')}
+                      </div>
                     </div>
                   </CardContent>
                   <div className="absolute -top-4 -right-4 h-20 w-20 rounded-full bg-white/10"></div>
@@ -272,13 +302,15 @@ export default function DashboardPage() {
             <div className="mb-6 flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                  最近任务
+                  {t('dashboard.recentTasks')}
                 </h2>
-                <p className="text-muted-foreground">您最近创建的任务概览</p>
+                <p className="text-muted-foreground">
+                  {t('dashboard.recentTasksDesc')}
+                </p>
               </div>
               <Button variant="outline" asChild className="group">
                 <Link href="/tasks" className="flex items-center gap-2">
-                  查看全部
+                  {t('dashboard.viewAll')}
                   <Clock className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               </Button>
@@ -294,7 +326,7 @@ export default function DashboardPage() {
                       </div>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400">
-                      加载任务中...
+                      {t('dashboard.loadingTasks')}
                     </p>
                   </div>
                 </div>
@@ -305,16 +337,16 @@ export default function DashboardPage() {
                       <Plus className="h-10 w-10 text-gray-500 dark:text-gray-400" />
                     </div>
                     <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-gray-100">
-                      还没有任务
+                      {t('dashboard.noTasks')}
                     </h3>
                     <p className="mb-6 text-gray-600 dark:text-gray-400">
-                      创建您的第一个任务开始高效工作
+                      {t('dashboard.noTasksDesc')}
                     </p>
                     <Link href="/add-task" className="group inline-block">
                       <div className="relative overflow-hidden rounded-xl border-0 bg-gradient-to-r from-green-500 to-green-600 px-6 py-3 text-white transition-all duration-300 hover:scale-105 hover:shadow-lg">
                         <span className="relative z-10 flex items-center gap-2 font-semibold">
                           <Plus className="h-5 w-5" />
-                          创建第一个任务
+                          {t('dashboard.createFirstTask')}
                         </span>
                         <div className="absolute -top-4 -right-4 h-12 w-12 rounded-full bg-white/20"></div>
                       </div>
@@ -358,7 +390,9 @@ export default function DashboardPage() {
                                 </div>
                               </div>
                               <div className="text-right">
-                                <div className="text-xs opacity-80">优先级</div>
+                                <div className="text-xs opacity-80">
+                                  {t('dashboard.priority')}
+                                </div>
                                 <div className="text-lg font-bold">
                                   {priorityConfig[task.priority].label}
                                 </div>
@@ -400,7 +434,9 @@ export default function DashboardPage() {
 
                           {/* 编辑提示 */}
                           <div className="absolute right-4 bottom-4 rounded-full bg-white/20 p-2 opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100">
-                            <span className="text-xs">点击编辑 →</span>
+                            <span className="text-xs">
+                              {t('dashboard.clickToEdit')}
+                            </span>
                           </div>
                         </div>
                       </Link>

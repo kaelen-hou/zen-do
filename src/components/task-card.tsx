@@ -11,7 +11,7 @@ import {
   Loader2,
   MoreHorizontal,
 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/routing';
 import {
   Card,
   CardContent,
