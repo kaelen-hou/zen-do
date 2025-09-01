@@ -29,7 +29,7 @@ import { Settings, ArrowLeft } from 'lucide-react';
       onClick: () => router.back(),
     },
   ]}
-/>
+/>;
 ```
 
 ## 变体样式
@@ -47,20 +47,13 @@ import { Settings, ArrowLeft } from 'lucide-react';
 ### 卡片变体（card）
 
 ```tsx
-<PageHeader
-  title="项目概览"
-  description="查看项目的整体状态"
-  variant="card"
-/>
+<PageHeader title="项目概览" description="查看项目的整体状态" variant="card" />
 ```
 
 ### 简约变体（minimal）
 
 ```tsx
-<PageHeader
-  title="快速创建"
-  variant="minimal"
-/>
+<PageHeader title="快速创建" variant="minimal" />
 ```
 
 ## 操作按钮
@@ -121,53 +114,54 @@ import { BackHeader } from '@/components/common/page-header';
       onClick: handleSave,
     },
   ]}
-/>
+/>;
 ```
 
 ## API 参考
 
 ### PageHeader Props
 
-| 参数 | 类型 | 默认值 | 描述 |
-| --- | --- | --- | --- |
-| title | string | - | 页面标题 |
-| description | string | - | 页面描述（可选） |
-| icon | LucideIcon | - | 标题图标（可选） |
-| actions | PageHeaderAction[] | [] | 操作按钮数组 |
-| children | ReactNode | - | 自定义操作区域内容 |
-| className | string | - | 自定义样式类 |
-| variant | 'default' \| 'card' \| 'minimal' | 'default' | 显示变体 |
+| 参数        | 类型                             | 默认值    | 描述               |
+| ----------- | -------------------------------- | --------- | ------------------ |
+| title       | string                           | -         | 页面标题           |
+| description | string                           | -         | 页面描述（可选）   |
+| icon        | LucideIcon                       | -         | 标题图标（可选）   |
+| actions     | PageHeaderAction[]               | []        | 操作按钮数组       |
+| children    | ReactNode                        | -         | 自定义操作区域内容 |
+| className   | string                           | -         | 自定义样式类       |
+| variant     | 'default' \| 'card' \| 'minimal' | 'default' | 显示变体           |
 
 ### PageHeaderAction
 
-| 参数 | 类型 | 默认值 | 描述 |
-| --- | --- | --- | --- |
-| label | string | - | 按钮文本 |
-| icon | LucideIcon | - | 按钮图标（可选） |
-| onClick | () => void | - | 点击处理函数 |
-| href | string | - | 链接地址（使用 Next.js Link） |
-| variant | ButtonVariant | 'outline' | 按钮样式变体 |
-| size | ButtonSize | 'sm' | 按钮尺寸 |
-| className | string | - | 自定义样式类 |
-| disabled | boolean | false | 是否禁用 |
+| 参数      | 类型          | 默认值    | 描述                          |
+| --------- | ------------- | --------- | ----------------------------- |
+| label     | string        | -         | 按钮文本                      |
+| icon      | LucideIcon    | -         | 按钮图标（可选）              |
+| onClick   | () => void    | -         | 点击处理函数                  |
+| href      | string        | -         | 链接地址（使用 Next.js Link） |
+| variant   | ButtonVariant | 'outline' | 按钮样式变体                  |
+| size      | ButtonSize    | 'sm'      | 按钮尺寸                      |
+| className | string        | -         | 自定义样式类                  |
+| disabled  | boolean       | false     | 是否禁用                      |
 
 ### BackHeader Props
 
-| 参数 | 类型 | 默认值 | 描述 |
-| --- | --- | --- | --- |
-| title | string | - | 页面标题 |
-| description | string | - | 页面描述（可选） |
-| onBack | () => void | - | 返回按钮点击处理函数 |
-| backLabel | string | '返回' | 返回按钮文本 |
-| actions | PageHeaderAction[] | [] | 额外操作按钮 |
-| children | ReactNode | - | 自定义内容 |
-| className | string | - | 自定义样式类 |
+| 参数        | 类型               | 默认值 | 描述                 |
+| ----------- | ------------------ | ------ | -------------------- |
+| title       | string             | -      | 页面标题             |
+| description | string             | -      | 页面描述（可选）     |
+| onBack      | () => void         | -      | 返回按钮点击处理函数 |
+| backLabel   | string             | '返回' | 返回按钮文本         |
+| actions     | PageHeaderAction[] | []     | 额外操作按钮         |
+| children    | ReactNode          | -      | 自定义内容           |
+| className   | string             | -      | 自定义样式类         |
 
 ## 迁移指南
 
 ### 从重复的 CardHeader 迁移
 
 **之前：**
+
 ```tsx
 <div className="mb-6 flex items-center gap-4">
   <Button variant="outline" size="icon" asChild>
@@ -185,6 +179,7 @@ import { BackHeader } from '@/components/common/page-header';
 ```
 
 **现在：**
+
 ```tsx
 <PageHeader
   title="创建新任务"
@@ -205,20 +200,20 @@ import { BackHeader } from '@/components/common/page-header';
 
 ### 页面类型映射
 
-| 页面类型 | 推荐变体 | 说明 |
-| --- | --- | --- |
-| 列表页面 | default | 需要多个操作按钮 |
-| 表单页面 | default | 需要保存/返回按钮 |
-| 详情页面 | card | 突出内容重要性 |
-| 对话框/Modal | minimal | 简洁的标题显示 |
+| 页面类型     | 推荐变体 | 说明              |
+| ------------ | -------- | ----------------- |
+| 列表页面     | default  | 需要多个操作按钮  |
+| 表单页面     | default  | 需要保存/返回按钮 |
+| 详情页面     | card     | 突出内容重要性    |
+| 对话框/Modal | minimal  | 简洁的标题显示    |
 
 ### 操作按钮优先级
 
-| 优先级 | 变体 | 用途 |
-| --- | --- | --- |
+| 优先级   | 变体    | 用途               |
+| -------- | ------- | ------------------ |
 | 主要操作 | default | 保存、创建、提交等 |
 | 次要操作 | outline | 编辑、删除、导出等 |
-| 导航操作 | ghost | 返回、取消等 |
+| 导航操作 | ghost   | 返回、取消等       |
 
 ## 优势
 

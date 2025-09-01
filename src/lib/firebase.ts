@@ -21,9 +21,12 @@ const firebaseConfig = {
 const hasFirebaseConfig = firebaseConfig.apiKey && firebaseConfig.projectId;
 
 // Initialize Firebase only if config is available
-const app = hasFirebaseConfig && getApps().length === 0 ? initializeApp(firebaseConfig) : 
-           hasFirebaseConfig ? getApp() : 
-           null;
+const app =
+  hasFirebaseConfig && getApps().length === 0
+    ? initializeApp(firebaseConfig)
+    : hasFirebaseConfig
+      ? getApp()
+      : null;
 
 // Initialize Firebase services
 export const auth = app ? getAuth(app) : null;

@@ -10,8 +10,8 @@ import { Separator } from '@/components/ui/separator';
 import { ModeToggle } from '@/components/mode-toggle';
 import { PageHeader } from '@/components/common/page-header';
 import { User, Camera, Save, ArrowLeft, Settings } from 'lucide-react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { AvatarUploadDialog } from '@/components/avatar-upload-dialog';
 
 export default function SettingsPage() {
   const { user, updateUserProfile } = useAuth();
@@ -64,26 +64,26 @@ export default function SettingsPage() {
             <div className="flex items-center space-x-4">
               <div className="relative">
                 {user.photoURL ? (
-                  <Image
-                    className="h-20 w-20 rounded-full"
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    className="h-20 w-20 rounded-full object-cover border-2 border-gray-200"
                     src={user.photoURL}
                     alt={user.displayName || '用户头像'}
-                    width={80}
-                    height={80}
                   />
                 ) : (
                   <div className="bg-primary/10 flex h-20 w-20 items-center justify-center rounded-full">
                     <User className="text-primary/50 h-10 w-10" />
                   </div>
                 )}
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="absolute -right-2 -bottom-2 h-8 w-8 rounded-full p-0"
-                  disabled
-                >
-                  <Camera className="h-4 w-4" />
-                </Button>
+                <AvatarUploadDialog>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="absolute -right-2 -bottom-2 h-8 w-8 rounded-full p-0"
+                  >
+                    <Camera className="h-4 w-4" />
+                  </Button>
+                </AvatarUploadDialog>
               </div>
               <div>
                 <p className="font-medium">
@@ -91,7 +91,7 @@ export default function SettingsPage() {
                 </p>
                 <p className="text-muted-foreground text-sm">{user.email}</p>
                 <p className="text-muted-foreground mt-1 text-xs">
-                  头像功能即将推出
+                  点击相机图标可更换头像
                 </p>
               </div>
             </div>

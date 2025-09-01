@@ -2,14 +2,23 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ThemeProvider } from '@/components/theme-provider';
+import { GlobalLoading } from '@/components/global-loading';
 
 export const metadata: Metadata = {
   title: {
     default: 'ZenDo - 现代化任务管理应用',
     template: '%s | ZenDo',
   },
-  description: '基于 Next.js 和 Firebase 构建的现代化任务管理应用，支持智能任务解析、实时同步和多设备访问',
-  keywords: ['任务管理', '待办事项', 'Todo', '生产力工具', 'Next.js', 'Firebase'],
+  description:
+    '基于 Next.js 和 Firebase 构建的现代化任务管理应用，支持智能任务解析、实时同步和多设备访问',
+  keywords: [
+    '任务管理',
+    '待办事项',
+    'Todo',
+    '生产力工具',
+    'Next.js',
+    'Firebase',
+  ],
   authors: [{ name: 'ZenDo Team' }],
   creator: 'ZenDo',
   publisher: 'ZenDo',
@@ -62,7 +71,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            {children}
+            <GlobalLoading />
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
