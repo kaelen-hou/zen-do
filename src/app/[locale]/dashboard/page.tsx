@@ -18,49 +18,51 @@ export default function DashboardPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
   const t = useTranslations('dashboard');
+  const tPriorities = useTranslations('priorities');
+  const tStatuses = useTranslations('statuses');
   const [recentTasks, setRecentTasks] = useState<Todo[]>([]);
   const [tasksLoading, setTasksLoading] = useState(false);
 
   const priorityConfig = {
     low: {
-      label: t('priorities.low'),
+      label: tPriorities('low'),
       className:
         'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
     },
     medium: {
-      label: t('priorities.medium'),
+      label: tPriorities('medium'),
       className:
         'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
     },
     high: {
-      label: t('priorities.high'),
+      label: tPriorities('high'),
       className:
         'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300',
     },
     urgent: {
-      label: t('priorities.urgent'),
+      label: tPriorities('urgent'),
       className: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
     },
   };
 
   const statusConfig = {
     todo: {
-      label: t('statuses.todo'),
+      label: tStatuses('todo'),
       className:
         'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300',
     },
     'in-progress': {
-      label: t('statuses.inProgress'),
+      label: tStatuses('inProgress'),
       className:
         'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
     },
     done: {
-      label: t('statuses.done'),
+      label: tStatuses('done'),
       className:
         'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
     },
     archived: {
-      label: t('statuses.archived'),
+      label: tStatuses('archived'),
       className:
         'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300',
     },
@@ -138,10 +140,10 @@ export default function DashboardPage() {
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold text-white">
-                    {t('dashboard.title')}
+                    {t('title')}
                   </h1>
                   <p className="text-sm text-white/70">
-                    {t('dashboard.subtitle')}
+                    {t('subtitle')}
                   </p>
                 </div>
               </div>
@@ -170,7 +172,7 @@ export default function DashboardPage() {
           {/* 快捷操作区 */}
           <div className="mb-12">
             <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-gray-100">
-              {t('dashboard.quickActions')}
+              {t('quickActions')}
             </h2>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {/* 我的任务卡片 */}
@@ -183,7 +185,7 @@ export default function DashboardPage() {
                       </div>
                       <div className="text-right">
                         <div className="text-sm opacity-80">
-                          {t('dashboard.todoItems')}
+                          {t('todoItems')}
                         </div>
                         <div className="text-2xl font-bold">
                           {recentTasks.length}
@@ -194,10 +196,10 @@ export default function DashboardPage() {
                   <CardContent className="pt-0">
                     <div>
                       <div className="text-lg font-semibold">
-                        {t('dashboard.myTasks')}
+                        {t('myTasks')}
                       </div>
                       <div className="text-sm opacity-80">
-                        {t('dashboard.myTasksDesc')}
+                        {t('myTasksDesc')}
                       </div>
                     </div>
                   </CardContent>
@@ -215,7 +217,7 @@ export default function DashboardPage() {
                       </div>
                       <div className="text-right">
                         <div className="text-sm opacity-80">
-                          {t('dashboard.create')}
+                          {t('create')}
                         </div>
                         <div className="text-2xl font-bold">+</div>
                       </div>
@@ -224,10 +226,10 @@ export default function DashboardPage() {
                   <CardContent className="pt-0">
                     <div>
                       <div className="text-lg font-semibold">
-                        {t('dashboard.addTask')}
+                        {t('addTask')}
                       </div>
                       <div className="text-sm opacity-80">
-                        {t('dashboard.addTaskDesc')}
+                        {t('addTaskDesc')}
                       </div>
                     </div>
                   </CardContent>
@@ -245,7 +247,7 @@ export default function DashboardPage() {
                       </div>
                       <div className="text-right">
                         <div className="text-sm opacity-80">
-                          {t('dashboard.statistics')}
+                          {t('statistics')}
                         </div>
                         <div className="text-2xl font-bold">📊</div>
                       </div>
@@ -254,10 +256,10 @@ export default function DashboardPage() {
                   <CardContent className="pt-0">
                     <div>
                       <div className="text-lg font-semibold">
-                        {t('dashboard.dataAnalysis')}
+                        {t('dataAnalysis')}
                       </div>
                       <div className="text-sm opacity-80">
-                        {t('dashboard.dataAnalysisDesc')}
+                        {t('dataAnalysisDesc')}
                       </div>
                     </div>
                   </CardContent>
@@ -275,7 +277,7 @@ export default function DashboardPage() {
                       </div>
                       <div className="text-right">
                         <div className="text-sm opacity-80">
-                          {t('dashboard.recycle')}
+                          {t('recycle')}
                         </div>
                         <div className="text-2xl font-bold">🗑️</div>
                       </div>
@@ -284,10 +286,10 @@ export default function DashboardPage() {
                   <CardContent className="pt-0">
                     <div>
                       <div className="text-lg font-semibold">
-                        {t('dashboard.trash')}
+                        {t('trash')}
                       </div>
                       <div className="text-sm opacity-80">
-                        {t('dashboard.trashDesc')}
+                        {t('trashDesc')}
                       </div>
                     </div>
                   </CardContent>
@@ -302,15 +304,15 @@ export default function DashboardPage() {
             <div className="mb-6 flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                  {t('dashboard.recentTasks')}
+                  {t('recentTasks')}
                 </h2>
                 <p className="text-muted-foreground">
-                  {t('dashboard.recentTasksDesc')}
+                  {t('recentTasksDesc')}
                 </p>
               </div>
               <Button variant="outline" asChild className="group">
                 <Link href="/tasks" className="flex items-center gap-2">
-                  {t('dashboard.viewAll')}
+                  {t('viewAll')}
                   <Clock className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               </Button>
@@ -326,7 +328,7 @@ export default function DashboardPage() {
                       </div>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400">
-                      {t('dashboard.loadingTasks')}
+                      {t('loadingTasks')}
                     </p>
                   </div>
                 </div>
@@ -337,16 +339,16 @@ export default function DashboardPage() {
                       <Plus className="h-10 w-10 text-gray-500 dark:text-gray-400" />
                     </div>
                     <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-gray-100">
-                      {t('dashboard.noTasks')}
+                      {t('noTasks')}
                     </h3>
                     <p className="mb-6 text-gray-600 dark:text-gray-400">
-                      {t('dashboard.noTasksDesc')}
+                      {t('noTasksDesc')}
                     </p>
                     <Link href="/add-task" className="group inline-block">
                       <div className="relative overflow-hidden rounded-xl border-0 bg-gradient-to-r from-green-500 to-green-600 px-6 py-3 text-white transition-all duration-300 hover:scale-105 hover:shadow-lg">
                         <span className="relative z-10 flex items-center gap-2 font-semibold">
                           <Plus className="h-5 w-5" />
-                          {t('dashboard.createFirstTask')}
+                          {t('createFirstTask')}
                         </span>
                         <div className="absolute -top-4 -right-4 h-12 w-12 rounded-full bg-white/20"></div>
                       </div>
@@ -391,7 +393,7 @@ export default function DashboardPage() {
                               </div>
                               <div className="text-right">
                                 <div className="text-xs opacity-80">
-                                  {t('dashboard.priority')}
+                                  {t('priority')}
                                 </div>
                                 <div className="text-lg font-bold">
                                   {priorityConfig[task.priority].label}
@@ -435,7 +437,7 @@ export default function DashboardPage() {
                           {/* 编辑提示 */}
                           <div className="absolute right-4 bottom-4 rounded-full bg-white/20 p-2 opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100">
                             <span className="text-xs">
-                              {t('dashboard.clickToEdit')}
+                              {t('clickToEdit')}
                             </span>
                           </div>
                         </div>
