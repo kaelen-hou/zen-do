@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, Link } from '@/i18n/routing';
 import { useAuth } from '@/contexts/AuthContext';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -22,6 +23,7 @@ export default function SignInPage() {
   const [loading, setLoading] = useState(false);
   const { signIn, signInWithGoogle, user } = useAuth();
   const router = useRouter();
+  const t = useTranslations('auth');
 
   useEffect(() => {
     if (user) {
@@ -32,7 +34,7 @@ export default function SignInPage() {
   const handleEmailSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
-      setError('请填写所有字段');
+      setError(t('fillAllFields'));
       return;
     }
 
@@ -45,15 +47,15 @@ export default function SignInPage() {
       // 转换 Firebase 错误为中文提示
       const errorMessage = (error as Error).message;
       if (errorMessage.includes('user-not-found')) {
-        setError('用户不存在，请检查邮箱地址');
+        setError(t('userNotFound'));
       } else if (errorMessage.includes('wrong-password')) {
-        setError('密码错误，请重试');
+        setError(t('wrongPassword'));
       } else if (errorMessage.includes('invalid-email')) {
-        setError('邮箱格式不正确');
+        setError(t('invalidEmailFormat'));
       } else if (errorMessage.includes('too-many-requests')) {
-        setError('登录尝试次数过多，请稍后再试');
+        setError(t('tooManyRequests'));
       } else {
-        setError('登录失败，请检查您的凭据');
+        setError(t('loginFailed'));
       }
     } finally {
       setLoading(false);
@@ -80,14 +82,14 @@ export default function SignInPage() {
     <div className="bg-background flex min-h-screen flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight">登录您的账户</h2>
+          <h2 className="text-3xl font-bold tracking-tight">{t('signInToAccount')}</h2>
           <p className="text-muted-foreground mt-2 text-sm">
-            还没有账户？{' '}
+            {t('dontHaveAccount')}{' '}
             <Link
               href="/signup"
               className="text-primary hover:text-primary/80 font-medium"
             >
-              立即注册
+              {t('signUpNow')}
             </Link>
           </p>
         </div>
@@ -96,8 +98,8 @@ export default function SignInPage() {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <Card>
           <CardHeader>
-            <CardTitle>欢迎回来</CardTitle>
-            <CardDescription>请输入您的登录信息</CardDescription>
+            <CardTitle>{t('welcomeBack')}</CardTitle>
+            <CardDescription>{t('enterLoginInfo')}</CardDescription>
           </CardHeader>
           <CardContent>
             {error && (
@@ -108,7 +110,7 @@ export default function SignInPage() {
 
             <form className="space-y-4" onSubmit={handleEmailSignIn}>
               <div className="space-y-2">
-                <Label htmlFor="email">邮箱地址</Label>
+                <Label htmlFor="email">{t('emailAddress')}</Label>
                 <Input
                   id="email"
                   name="email"
@@ -117,12 +119,12 @@ export default function SignInPage() {
                   required
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  placeholder="请输入您的邮箱"
+                  placeholder={t('emailPlaceholder')}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">密码</Label>
+                <Label htmlFor="password">{t('password')}</Label>
                 <Input
                   id="password"
                   name="password"
@@ -131,7 +133,7 @@ export default function SignInPage() {
                   required
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  placeholder="请输入您的密码"
+                  placeholder={t('passwordPlaceholder')}
                 />
               </div>
 
@@ -141,13 +143,13 @@ export default function SignInPage() {
                     href="/reset-password"
                     className="text-primary hover:text-primary/80 font-medium"
                   >
-                    忘记密码？
+                    {t('forgotPassword')}
                   </Link>
                 </div>
               </div>
 
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? '登录中...' : '登录'}
+                {loading ? t('signingIn') : t('signIn')}
               </Button>
 
               <div className="relative">
@@ -156,7 +158,7 @@ export default function SignInPage() {
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
                   <span className="bg-background text-muted-foreground px-2">
-                    或者使用以下方式
+                    {t('orUseFollowing')}
                   </span>
                 </div>
               </div>
@@ -169,7 +171,7 @@ export default function SignInPage() {
                 disabled={loading}
               >
                 <Chrome className="mr-2 h-4 w-4" />
-                使用 Google 登录
+                {t('signInWithGoogle')}
               </Button>
             </form>
           </CardContent>

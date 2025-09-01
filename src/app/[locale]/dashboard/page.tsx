@@ -17,7 +17,7 @@ import { Todo } from '@/types';
 export default function DashboardPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
-  const t = useTranslations();
+  const t = useTranslations('dashboard');
   const [recentTasks, setRecentTasks] = useState<Todo[]>([]);
   const [tasksLoading, setTasksLoading] = useState(false);
 
@@ -106,10 +106,10 @@ export default function DashboardPage() {
             </div>
             <div className="text-center">
               <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                加载工作台
+                {t('loadingWorkspace')}
               </p>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                正在为您准备最佳体验...
+                {t('preparingExperience')}
               </p>
             </div>
           </div>
