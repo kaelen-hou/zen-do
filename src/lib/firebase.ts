@@ -17,19 +17,24 @@ const firebaseConfig = {
   databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
 };
 
-// Initialize Firebase
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+// Validate Firebase config
+const hasFirebaseConfig = firebaseConfig.apiKey && firebaseConfig.projectId;
+
+// Initialize Firebase only if config is available
+const app = hasFirebaseConfig && getApps().length === 0 ? initializeApp(firebaseConfig) : 
+           hasFirebaseConfig ? getApp() : 
+           null;
 
 // Initialize Firebase services
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const storage = getStorage(app);
-export const realtimeDb = getDatabase(app);
-export const functions = getFunctions(app);
+export const auth = app ? getAuth(app) : null;
+export const db = app ? getFirestore(app) : null;
+export const storage = app ? getStorage(app) : null;
+export const realtimeDb = app ? getDatabase(app) : null;
+export const functions = app ? getFunctions(app) : null;
 
 // Initialize Analytics (only in browser)
 export const getFirebaseAnalytics = async () => {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== 'undefined' && app) {
     const analyticsSupported = await isSupported();
     if (analyticsSupported) {
       return getAnalytics(app);

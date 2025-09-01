@@ -19,11 +19,15 @@ export async function createTodo(
   userId: string,
   data: CreateTaskInput
 ): Promise<string> {
+  if (!db) {
+    throw new Error('Firebase not initialized');
+  }
+
   console.log('=== CREATE TODO DEBUG ===');
   console.log('1. User ID:', userId);
   console.log('2. Input data:', data);
-  console.log('3. Firebase auth current user:', auth.currentUser?.uid);
-  console.log('4. Auth state match:', auth.currentUser?.uid === userId);
+  console.log('3. Firebase auth current user:', auth?.currentUser?.uid);
+  console.log('4. Auth state match:', auth?.currentUser?.uid === userId);
 
   try {
     const todoData = {
@@ -65,6 +69,10 @@ export async function createTodo(
 }
 
 export async function getTodos(userId: string): Promise<Todo[]> {
+  if (!db) {
+    throw new Error('Firebase not initialized');
+  }
+
   try {
     console.log('🔍 Starting getTodos for userId:', userId);
 
@@ -118,6 +126,10 @@ export async function updateTodo(
   todoId: string,
   data: Partial<Todo>
 ): Promise<void> {
+  if (!db) {
+    throw new Error('Firebase not initialized');
+  }
+
   try {
     const todoRef = doc(db, TODOS_COLLECTION, todoId);
     await updateDoc(todoRef, {
@@ -133,6 +145,10 @@ export async function updateTodo(
 
 // 软删除：移到回收站
 export async function deleteTodo(todoId: string): Promise<void> {
+  if (!db) {
+    throw new Error('Firebase not initialized');
+  }
+
   try {
     const todoRef = doc(db, TODOS_COLLECTION, todoId);
     await updateDoc(todoRef, {
@@ -147,6 +163,10 @@ export async function deleteTodo(todoId: string): Promise<void> {
 
 // 获取回收站中的任务
 export async function getDeletedTodos(userId: string): Promise<Todo[]> {
+  if (!db) {
+    throw new Error('Firebase not initialized');
+  }
+
   try {
     // 使用简单查询避免复合索引需求
     const q = query(
@@ -193,6 +213,10 @@ export async function getDeletedTodos(userId: string): Promise<Todo[]> {
 
 // 从回收站恢复任务
 export async function restoreTodo(todoId: string): Promise<void> {
+  if (!db) {
+    throw new Error('Firebase not initialized');
+  }
+
   try {
     const todoRef = doc(db, TODOS_COLLECTION, todoId);
     await updateDoc(todoRef, {
@@ -207,6 +231,10 @@ export async function restoreTodo(todoId: string): Promise<void> {
 
 // 永久删除任务
 export async function permanentlyDeleteTodo(todoId: string): Promise<void> {
+  if (!db) {
+    throw new Error('Firebase not initialized');
+  }
+
   try {
     await deleteDoc(doc(db, TODOS_COLLECTION, todoId));
   } catch (error) {

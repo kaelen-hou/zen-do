@@ -48,6 +48,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!auth) {
+      setLoading(false);
+      return;
+    }
+
     const unsubscribe = onAuthStateChanged(auth, firebaseUser => {
       if (firebaseUser) {
         const user: User = {
@@ -67,6 +72,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const signIn = async (email: string, password: string) => {
+    if (!auth) throw new Error('Firebase not initialized');
     await signInWithEmailAndPassword(auth, email, password);
   };
 
@@ -75,6 +81,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     password: string,
     displayName?: string
   ) => {
+    if (!auth) throw new Error('Firebase not initialized');
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
@@ -86,6 +93,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const signInWithGoogle = async () => {
+    if (!auth) throw new Error('Firebase not initialized');
     const provider = new GoogleAuthProvider();
     // 设置 Google 登录的额外配置
     provider.addScope('profile');
@@ -112,14 +120,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const logout = async () => {
+    if (!auth) throw new Error('Firebase not initialized');
     await signOut(auth);
   };
 
   const resetPassword = async (email: string) => {
+    if (!auth) throw new Error('Firebase not initialized');
     await sendPasswordResetEmail(auth, email);
   };
 
   const updateUserProfile = async (displayName: string, photoURL?: string) => {
+    if (!auth) throw new Error('Firebase not initialized');
     if (auth.currentUser) {
       await updateProfile(auth.currentUser, { displayName, photoURL });
       // Update local state
