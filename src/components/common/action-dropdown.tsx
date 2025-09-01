@@ -38,7 +38,7 @@ export function ActionDropdown({
   disabled = false,
 }: ActionDropdownProps) {
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild disabled={disabled}>
         {trigger}
       </DropdownMenuTrigger>
@@ -114,7 +114,10 @@ export function IconTrigger({
     <Button
       variant={variant}
       size={size}
-      className={cn('h-8 w-8 p-0', className)}
+      className={cn(
+        'h-8 min-h-[44px] w-8 min-w-[44px] touch-manipulation p-0',
+        className
+      )}
       disabled={disabled || loading}
     >
       <DisplayIcon className={cn('h-4 w-4', loading && 'animate-spin')} />

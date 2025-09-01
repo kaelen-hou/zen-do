@@ -76,19 +76,19 @@ export default function TasksPage() {
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-20 items-center justify-between">
-            <div className="flex items-center">
-              <div className="flex items-center gap-4">
-                <div className="relative">
-                  <div className="rounded-xl bg-white/20 p-3 ring-2 ring-white/30 backdrop-blur-sm">
-                    <ClipboardList className="h-6 w-6 text-white" />
+            <div className="flex min-w-0 flex-1 items-center">
+              <div className="flex items-center gap-2 sm:gap-4">
+                <div className="relative flex-shrink-0">
+                  <div className="rounded-xl bg-white/20 p-2 ring-2 ring-white/30 backdrop-blur-sm sm:p-3">
+                    <ClipboardList className="h-5 w-5 text-white sm:h-6 sm:w-6" />
                   </div>
                   <div className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-green-400 ring-2 ring-white/50"></div>
                 </div>
-                <div>
-                  <h1 className="text-2xl font-bold text-white">
+                <div className="min-w-0 flex-1">
+                  <h1 className="truncate text-lg font-bold text-white sm:text-2xl">
                     {t('tasks.title')}
                   </h1>
-                  <p className="text-sm text-white/70">
+                  <p className="truncate text-xs text-white/70 sm:text-sm">
                     {tasks.length === 0
                       ? t('tasks.noTasks')
                       : `${tasks.length} ${t('tasks.allTasks')}`}
@@ -96,7 +96,7 @@ export default function TasksPage() {
                 </div>
               </div>
             </div>
-            <div className="flex items-center">
+            <div className="flex flex-shrink-0 items-center">
               <div className="rounded-lg bg-white/10 p-1 backdrop-blur-sm">
                 <UserAvatarDropdown />
               </div>

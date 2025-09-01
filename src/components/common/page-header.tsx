@@ -38,32 +38,38 @@ export function PageHeader({
   variant = 'default',
 }: PageHeaderProps) {
   const renderContent = () => (
-    <div className={cn('flex items-center justify-between', className)}>
+    <div
+      className={cn(
+        'flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between',
+        className
+      )}
+    >
       <div className="flex items-center gap-4">
         {Icon && (
           <div className="bg-primary/10 flex items-center justify-center rounded-lg p-2">
             <Icon className="text-primary h-6 w-6" />
           </div>
         )}
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+        <div className="min-w-0 flex-1">
+          <h1 className="text-xl font-bold text-gray-900 sm:text-2xl dark:text-gray-100">
             {title}
           </h1>
           {description && (
-            <p className="text-muted-foreground mt-1">{description}</p>
+            <p className="text-muted-foreground mt-1 text-sm">{description}</p>
           )}
         </div>
       </div>
       {(actions.length > 0 || children) && (
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap">
           {actions.map((action, index) => {
             const ActionIcon = action.icon;
             const key = `action-${index}`;
 
             const buttonContent = (
               <>
-                {ActionIcon && <ActionIcon className="mr-2 h-4 w-4" />}
-                {action.label}
+                {ActionIcon && <ActionIcon className="mr-0 h-4 w-4 sm:mr-2" />}
+                <span className="hidden sm:inline">{action.label}</span>
+                <span className="sr-only sm:not-sr-only">{action.label}</span>
               </>
             );
 

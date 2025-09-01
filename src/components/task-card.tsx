@@ -140,14 +140,19 @@ export function TaskCard({ task, className, onTaskUpdated }: TaskCardProps) {
     <Card className={cn('transition-shadow hover:shadow-md', className)}>
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-2">
-          <CardTitle className="line-clamp-2">{task.title}</CardTitle>
-          <div className="flex flex-shrink-0 items-center gap-2">
+          <CardTitle className="line-clamp-2 flex-1">{task.title}</CardTitle>
+          <div className="flex flex-shrink-0 items-center gap-1 sm:gap-2">
             <Badge
               variant="secondary"
-              className={priorityConfig[task.priority].className}
+              className={`${priorityConfig[task.priority].className} text-xs`}
             >
-              <Flag className="mr-1 h-3 w-3" />
-              {priorityConfig[task.priority].label}
+              <Flag className="mr-1 h-2 w-2 sm:h-3 sm:w-3" />
+              <span className="hidden sm:inline">
+                {priorityConfig[task.priority].label}
+              </span>
+              <span className="sr-only">
+                {priorityConfig[task.priority].label}
+              </span>
             </Badge>
             <ActionDropdown
               trigger={
@@ -169,21 +174,27 @@ export function TaskCard({ task, className, onTaskUpdated }: TaskCardProps) {
         )}
       </CardHeader>
       <CardContent className="pt-0">
-        <div className="flex items-center justify-between">
-          <Badge className={statusConfig[task.status].className}>
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <Badge
+            className={`${statusConfig[task.status].className} text-xs sm:text-sm`}
+          >
             {statusConfig[task.status].label}
           </Badge>
 
-          <div className="text-muted-foreground flex items-center gap-4 text-sm">
+          <div className="text-muted-foreground flex flex-col gap-1 text-xs sm:flex-row sm:items-center sm:gap-4 sm:text-sm">
             {task.dueDate && (
               <div className="flex items-center gap-1">
                 <Calendar className="h-3 w-3" />
-                {format(task.dueDate, 'yyyy-MM-dd')}
+                <span className="truncate">
+                  {format(task.dueDate, 'yyyy-MM-dd')}
+                </span>
               </div>
             )}
             <div className="flex items-center gap-1">
               <Clock className="h-3 w-3" />
-              {format(task.createdAt, 'yyyy-MM-dd')}
+              <span className="truncate">
+                {format(task.createdAt, 'yyyy-MM-dd')}
+              </span>
             </div>
           </div>
         </div>
