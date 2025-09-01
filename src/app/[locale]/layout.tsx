@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import '../globals.css';
@@ -8,58 +8,67 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import { ThemeProvider } from '@/components/theme-provider';
 import { GlobalLoading } from '@/components/global-loading';
 
-export const metadata: Metadata = {
-  title: {
-    default: 'ZenDo - 现代化任务管理应用',
-    template: '%s | ZenDo',
-  },
-  description:
-    '基于 Next.js 和 Firebase 构建的现代化任务管理应用，支持智能任务解析、实时同步和多设备访问',
-  keywords: [
-    '任务管理',
-    '待办事项',
-    'Todo',
-    '生产力工具',
-    'Next.js',
-    'Firebase',
-  ],
-  authors: [{ name: 'ZenDo Team' }],
-  creator: 'ZenDo',
-  publisher: 'ZenDo',
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  metadataBase: new URL('https://zendo.notiving.com'),
-  openGraph: {
-    title: 'ZenDo - 现代化任务管理应用',
-    description: '高效管理任务，智能解析内容，实现更好的生产力',
-    url: 'https://zendo.notiving.com',
-    siteName: 'ZenDo',
-    locale: 'zh_CN',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'ZenDo - 现代化任务管理应用',
-    description: '高效管理任务，智能解析内容，实现更好的生产力',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+// Dynamic metadata generation based on locale
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale });
+
+  return {
+    title: {
+      default: t('home.title') + ' - ' + t('home.subtitle'),
+      template: '%s | ' + t('home.title'),
+    },
+    description: t('home.heroDescription'),
+    keywords: [
+      t('dashboard.myTasks'),
+      t('dashboard.addTask'),
+      'Todo',
+      t('dashboard.statistics'),
+      'Next.js',
+      'Firebase',
+    ],
+    authors: [{ name: 'ZenDo Team' }],
+    creator: 'ZenDo',
+    publisher: 'ZenDo',
+    formatDetection: {
+      email: false,
+      address: false,
+      telephone: false,
+    },
+    metadataBase: new URL('https://zendo.notiving.com'),
+    openGraph: {
+      title: t('home.title') + ' - ' + t('home.subtitle'),
+      description: t('home.heroDescription'),
+      url: 'https://zendo.notiving.com',
+      siteName: t('home.title'),
+      locale: locale === 'zh' ? 'zh_CN' : 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: t('home.title') + ' - ' + t('home.subtitle'),
+      description: t('home.heroDescription'),
+    },
+    robots: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
     },
-  },
-  verification: {
-    google: 'google-site-verification=your-google-verification-code',
-  },
-};
+    verification: {
+      google: 'google-site-verification=your-google-verification-code',
+    },
+  };
+}
 
 export default async function LocaleLayout({
   children,

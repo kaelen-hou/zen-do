@@ -142,9 +142,7 @@ export default function DashboardPage() {
                   <h1 className="text-2xl font-bold text-white">
                     {t('title')}
                   </h1>
-                  <p className="text-sm text-white/70">
-                    {t('subtitle')}
-                  </p>
+                  <p className="text-sm text-white/70">{t('subtitle')}</p>
                 </div>
               </div>
             </div>
@@ -216,9 +214,7 @@ export default function DashboardPage() {
                         <Plus className="h-6 w-6" />
                       </div>
                       <div className="text-right">
-                        <div className="text-sm opacity-80">
-                          {t('create')}
-                        </div>
+                        <div className="text-sm opacity-80">{t('create')}</div>
                         <div className="text-2xl font-bold">+</div>
                       </div>
                     </div>
@@ -276,21 +272,15 @@ export default function DashboardPage() {
                         <Trash2 className="h-6 w-6" />
                       </div>
                       <div className="text-right">
-                        <div className="text-sm opacity-80">
-                          {t('recycle')}
-                        </div>
+                        <div className="text-sm opacity-80">{t('recycle')}</div>
                         <div className="text-2xl font-bold">🗑️</div>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent className="pt-0">
                     <div>
-                      <div className="text-lg font-semibold">
-                        {t('trash')}
-                      </div>
-                      <div className="text-sm opacity-80">
-                        {t('trashDesc')}
-                      </div>
+                      <div className="text-lg font-semibold">{t('trash')}</div>
+                      <div className="text-sm opacity-80">{t('trashDesc')}</div>
                     </div>
                   </CardContent>
                   <div className="absolute -top-4 -right-4 h-20 w-20 rounded-full bg-white/10"></div>
@@ -306,9 +296,7 @@ export default function DashboardPage() {
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                   {t('recentTasks')}
                 </h2>
-                <p className="text-muted-foreground">
-                  {t('recentTasksDesc')}
-                </p>
+                <p className="text-muted-foreground">{t('recentTasksDesc')}</p>
               </div>
               <Button variant="outline" asChild className="group">
                 <Link href="/tasks" className="flex items-center gap-2">
@@ -436,9 +424,7 @@ export default function DashboardPage() {
 
                           {/* 编辑提示 */}
                           <div className="absolute right-4 bottom-4 rounded-full bg-white/20 p-2 opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100">
-                            <span className="text-xs">
-                              {t('clickToEdit')}
-                            </span>
+                            <span className="text-xs">{t('clickToEdit')}</span>
                           </div>
                         </div>
                       </Link>

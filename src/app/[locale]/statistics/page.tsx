@@ -22,6 +22,7 @@ import {
 } from '@/components/ui/card';
 import { getTodos } from '@/lib/todos';
 import { Todo } from '@/types';
+import { useTranslations } from 'next-intl';
 
 interface TaskStats {
   total: number;
@@ -44,6 +45,7 @@ interface TaskStats {
 }
 
 export default function StatisticsPage() {
+  const t = useTranslations();
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -120,11 +122,11 @@ export default function StatisticsPage() {
       setStats(calculatedStats);
     } catch (error) {
       console.error('Failed to fetch statistics:', error);
-      setError('获取统计数据失败，请稍后重试');
+      setError(t('common.loading'));
     } finally {
       setLoading(false);
     }
-  }, [user, calculateStats]);
+  }, [user, calculateStats, t]);
 
   useEffect(() => {
     if (user) {
@@ -137,7 +139,7 @@ export default function StatisticsPage() {
       <div className="bg-background flex min-h-screen items-center justify-center">
         <div className="flex items-center gap-2">
           <Loader2 className="h-6 w-6 animate-spin" />
-          <span>加载统计数据中...</span>
+          <span>{t('common.loading')}...</span>
         </div>
       </div>
     );
@@ -157,9 +159,9 @@ export default function StatisticsPage() {
             </Link>
           </Button>
           <div>
-            <h1 className="text-3xl font-bold">数据统计</h1>
+            <h1 className="text-3xl font-bold">{t('statistics.title')}</h1>
             <p className="text-muted-foreground">
-              查看您的任务完成情况和工作效率
+              {t('statistics.description')}
             </p>
           </div>
         </div>
@@ -168,7 +170,7 @@ export default function StatisticsPage() {
           <div className="py-12 text-center">
             <p className="text-destructive mb-4">{error}</p>
             <Button onClick={fetchStats} variant="outline">
-              重试
+              {t('common.cancel')}
             </Button>
           </div>
         ) : (
@@ -178,52 +180,60 @@ export default function StatisticsPage() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    总任务数
+                    {t('statistics.totalTasks')}
                   </CardTitle>
                   <CheckCircle className="h-4 w-4 text-blue-600" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{stats.total}</div>
                   <p className="text-muted-foreground text-xs">
-                    所有任务的总数量
+                    {t('statistics.totalTasks')}
                   </p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">已完成</CardTitle>
+                  <CardTitle className="text-sm font-medium">
+                    {t('statistics.completedTasks')}
+                  </CardTitle>
                   <CheckCircle className="h-4 w-4 text-green-600" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{stats.completed}</div>
                   <p className="text-muted-foreground text-xs">
-                    完成率 {stats.completionRate}%
+                    {t('statistics.completionRate')} {stats.completionRate}%
                   </p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">进行中</CardTitle>
+                  <CardTitle className="text-sm font-medium">
+                    {t('statuses.inProgress')}
+                  </CardTitle>
                   <TrendingUp className="h-4 w-4 text-blue-600" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{stats.inProgress}</div>
                   <p className="text-muted-foreground text-xs">
-                    正在处理的任务
+                    {t('statuses.inProgress')}
                   </p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">已逾期</CardTitle>
+                  <CardTitle className="text-sm font-medium">
+                    {t('statistics.pendingTasks')}
+                  </CardTitle>
                   <Clock className="h-4 w-4 text-red-600" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{stats.overdue}</div>
-                  <p className="text-muted-foreground text-xs">超过截止日期</p>
+                  <p className="text-muted-foreground text-xs">
+                    {t('addTask.dueDate')}
+                  </p>
                 </CardContent>
               </Card>
             </div>
@@ -232,35 +242,39 @@ export default function StatisticsPage() {
               {/* 任务状态分布 */}
               <Card>
                 <CardHeader>
-                  <CardTitle>任务状态分布</CardTitle>
-                  <CardDescription>按状态分类的任务数量统计</CardDescription>
+                  <CardTitle>{t('statistics.title')}</CardTitle>
+                  <CardDescription>
+                    {t('statistics.description')}
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <div className="h-3 w-3 rounded-full bg-gray-500"></div>
-                      <span className="text-sm">待办</span>
+                      <span className="text-sm">{t('statuses.todo')}</span>
                     </div>
                     <span className="font-medium">{stats.todo}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <div className="h-3 w-3 rounded-full bg-blue-500"></div>
-                      <span className="text-sm">进行中</span>
+                      <span className="text-sm">
+                        {t('statuses.inProgress')}
+                      </span>
                     </div>
                     <span className="font-medium">{stats.inProgress}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <div className="h-3 w-3 rounded-full bg-green-500"></div>
-                      <span className="text-sm">已完成</span>
+                      <span className="text-sm">{t('statuses.done')}</span>
                     </div>
                     <span className="font-medium">{stats.completed}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <div className="h-3 w-3 rounded-full bg-gray-400"></div>
-                      <span className="text-sm">已归档</span>
+                      <span className="text-sm">{t('statuses.archived')}</span>
                     </div>
                     <span className="font-medium">{stats.archived}</span>
                   </div>
@@ -272,15 +286,17 @@ export default function StatisticsPage() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Flag className="h-5 w-5" />
-                    优先级分布
+                    {t('addTask.priority')}
                   </CardTitle>
-                  <CardDescription>按优先级分类的任务数量统计</CardDescription>
+                  <CardDescription>
+                    {t('statistics.description')}
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <div className="h-3 w-3 rounded-full bg-green-500"></div>
-                      <span className="text-sm">低优先级</span>
+                      <span className="text-sm">{t('priorities.low')}</span>
                     </div>
                     <span className="font-medium">
                       {stats.priorityStats.low}
@@ -289,7 +305,7 @@ export default function StatisticsPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <div className="h-3 w-3 rounded-full bg-yellow-500"></div>
-                      <span className="text-sm">中等优先级</span>
+                      <span className="text-sm">{t('priorities.medium')}</span>
                     </div>
                     <span className="font-medium">
                       {stats.priorityStats.medium}
@@ -298,7 +314,7 @@ export default function StatisticsPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <div className="h-3 w-3 rounded-full bg-orange-500"></div>
-                      <span className="text-sm">高优先级</span>
+                      <span className="text-sm">{t('priorities.high')}</span>
                     </div>
                     <span className="font-medium">
                       {stats.priorityStats.high}
@@ -307,7 +323,7 @@ export default function StatisticsPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <div className="h-3 w-3 rounded-full bg-red-500"></div>
-                      <span className="text-sm">紧急</span>
+                      <span className="text-sm">{t('priorities.urgent')}</span>
                     </div>
                     <span className="font-medium">
                       {stats.priorityStats.urgent}
@@ -319,9 +335,9 @@ export default function StatisticsPage() {
               {/* 近期活动 */}
               <Card className="lg:col-span-2">
                 <CardHeader>
-                  <CardTitle>近期活动（7天内）</CardTitle>
+                  <CardTitle>{t('statistics.weeklyProgress')}</CardTitle>
                   <CardDescription>
-                    过去一周的任务创建和完成情况
+                    {t('statistics.weeklyProgress')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -329,7 +345,7 @@ export default function StatisticsPage() {
                     <div className="flex items-center justify-between rounded-lg border p-4">
                       <div>
                         <p className="text-muted-foreground text-sm">
-                          本周创建
+                          {t('common.create')}
                         </p>
                         <p className="text-2xl font-bold">
                           {stats.recentActivity.createdThisWeek}
@@ -342,7 +358,7 @@ export default function StatisticsPage() {
                     <div className="flex items-center justify-between rounded-lg border p-4">
                       <div>
                         <p className="text-muted-foreground text-sm">
-                          本周完成
+                          {t('statuses.done')}
                         </p>
                         <p className="text-2xl font-bold">
                           {stats.recentActivity.completedThisWeek}

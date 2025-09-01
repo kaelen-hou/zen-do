@@ -14,6 +14,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { useTranslations } from 'next-intl';
 
 interface AvatarUploadDialogProps {
   children: React.ReactNode;
@@ -24,6 +25,7 @@ export function AvatarUploadDialog({
   children,
   className,
 }: AvatarUploadDialogProps) {
+  const t = useTranslations();
   const { user, updateUserProfile } = useAuth();
   const { setLoading } = useGlobalLoading();
   const [open, setOpen] = useState(false);
@@ -36,13 +38,13 @@ export function AvatarUploadDialog({
     if (file) {
       // 验证文件类型
       if (!file.type.startsWith('image/')) {
-        alert('请选择图片文件');
+        alert(t('settings.fileTypeError'));
         return;
       }
 
       // 验证文件大小 (5MB)
       if (file.size > 5 * 1024 * 1024) {
-        alert('图片大小不能超过 5MB');
+        alert(t('settings.fileSizeError'));
         return;
       }
 
@@ -60,7 +62,7 @@ export function AvatarUploadDialog({
   const handleUpload = async () => {
     if (!selectedFile || !user || !storage) return;
 
-    setLoading(true, '正在上传头像...');
+    setLoading(true, t('settings.uploading'));
 
     try {
       // 创建文件引用
@@ -84,7 +86,7 @@ export function AvatarUploadDialog({
       setPreviewUrl(null);
     } catch (error) {
       console.error('Upload failed:', error);
-      alert('上传失败，请重试');
+      alert(t('settings.uploadFailed'));
     } finally {
       setLoading(false);
     }
@@ -104,7 +106,9 @@ export function AvatarUploadDialog({
 
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-center">更新头像</DialogTitle>
+          <DialogTitle className="text-center">
+            {t('settings.uploadAvatar')}
+          </DialogTitle>
         </DialogHeader>
 
         <div className="flex flex-col items-center space-y-6">
@@ -115,14 +119,14 @@ export function AvatarUploadDialog({
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={previewUrl}
-                  alt="头像预览"
+                  alt={t('settings.profile')}
                   className="h-full w-full object-cover"
                 />
               ) : user?.photoURL ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={user.photoURL}
-                  alt="当前头像"
+                  alt={t('settings.profile')}
                   className="h-full w-full object-cover"
                 />
               ) : (
@@ -162,7 +166,7 @@ export function AvatarUploadDialog({
               variant="outline"
             >
               <Upload className="mr-2 h-4 w-4" />
-              选择图片
+              {t('settings.selectImage')}
             </Button>
           ) : (
             <div className="flex w-full space-x-3">
@@ -172,16 +176,16 @@ export function AvatarUploadDialog({
                 className="flex-1"
               >
                 <X className="mr-2 h-4 w-4" />
-                取消
+                {t('common.cancel')}
               </Button>
               <Button onClick={handleUpload} className="flex-1">
-                确定上传
+                {t('settings.uploadAvatar')}
               </Button>
             </div>
           )}
 
           <p className="text-muted-foreground text-center text-sm">
-            支持 JPG、PNG、GIF 格式，大小不超过 5MB
+            {t('settings.supportedFormats')}
           </p>
         </div>
       </DialogContent>

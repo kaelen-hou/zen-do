@@ -10,8 +10,10 @@ import {
   type ActionDropdownItem,
 } from '@/components/common/action-dropdown';
 import { cn } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
 
 export function ModeToggle() {
+  const t = useTranslations('settings');
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
@@ -43,9 +45,9 @@ export function ModeToggle() {
   });
 
   const dropdownItems: ActionDropdownItem[] = [
-    createThemeItem('light', '浅色', Sun),
-    createThemeItem('dark', '深色', Moon),
-    createThemeItem('system', '跟随系统', Monitor),
+    createThemeItem('light', t('themeLight'), Sun),
+    createThemeItem('dark', t('themeDark'), Moon),
+    createThemeItem('system', t('themeSystem'), Monitor),
   ];
 
   if (!mounted) {
@@ -63,7 +65,7 @@ export function ModeToggle() {
         <Button variant="outline" size="icon">
           <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-          <span className="sr-only">切换主题</span>
+          <span className="sr-only">{t('theme')}</span>
         </Button>
       }
       items={dropdownItems}

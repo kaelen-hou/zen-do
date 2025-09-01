@@ -33,7 +33,10 @@ export default function SignUpPage() {
   try {
     console.log('createAccount translation:', t('createAccount'));
   } catch (e) {
-    console.log('createAccount error:', e instanceof Error ? e.message : String(e));
+    console.log(
+      'createAccount error:',
+      e instanceof Error ? e.message : String(e)
+    );
   }
 
   useEffect(() => {
@@ -101,7 +104,9 @@ export default function SignUpPage() {
     <div className="bg-background flex min-h-screen flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight">{t('createAccount')}</h2>
+          <h2 className="text-3xl font-bold tracking-tight">
+            {t('createAccount')}
+          </h2>
           <p className="text-muted-foreground mt-2 text-sm">
             {t('alreadyHaveAccount')}{' '}
             <Link

@@ -38,6 +38,7 @@ import {
 import { Todo } from '@/types';
 import { deleteTodo } from '@/lib/todos';
 import { cn } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
 
 interface TaskCardProps {
   task: Todo;
@@ -45,52 +46,58 @@ interface TaskCardProps {
   onTaskUpdated?: () => void;
 }
 
-const priorityConfig = {
-  low: {
-    label: '低优先级',
-    className:
-      'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-  },
-  medium: {
-    label: '中等优先级',
-    className:
-      'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
-  },
-  high: {
-    label: '高优先级',
-    className:
-      'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300',
-  },
-  urgent: {
-    label: '紧急',
-    className: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
-  },
-};
-
-const statusConfig = {
-  todo: {
-    label: '待办',
-    className: 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300',
-  },
-  'in-progress': {
-    label: '进行中',
-    className: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
-  },
-  done: {
-    label: '已完成',
-    className:
-      'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-  },
-  archived: {
-    label: '已归档',
-    className: 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300',
-  },
-};
+// Priority and status configurations will be created inside component to use translations
 
 export function TaskCard({ task, className, onTaskUpdated }: TaskCardProps) {
+  const t = useTranslations();
   const router = useRouter();
   const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+
+  const priorityConfig = {
+    low: {
+      label: t('priorities.low'),
+      className:
+        'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+    },
+    medium: {
+      label: t('priorities.medium'),
+      className:
+        'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+    },
+    high: {
+      label: t('priorities.high'),
+      className:
+        'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300',
+    },
+    urgent: {
+      label: t('priorities.urgent'),
+      className: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
+    },
+  };
+
+  const statusConfig = {
+    todo: {
+      label: t('statuses.todo'),
+      className:
+        'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300',
+    },
+    'in-progress': {
+      label: t('statuses.inProgress'),
+      className:
+        'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+    },
+    done: {
+      label: t('statuses.done'),
+      className:
+        'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+    },
+    archived: {
+      label: t('statuses.archived'),
+      className:
+        'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300',
+    },
+  };
 
   const handleEdit = () => {
     router.push(`/edit-task/${task.id}`);
@@ -113,7 +120,7 @@ export function TaskCard({ task, className, onTaskUpdated }: TaskCardProps) {
   const dropdownItems: ActionDropdownItem[] = [
     {
       type: 'item',
-      label: '编辑任务',
+      label: t('editTask.title'),
       icon: Edit3,
       onClick: handleEdit,
     },
@@ -122,7 +129,7 @@ export function TaskCard({ task, className, onTaskUpdated }: TaskCardProps) {
     },
     {
       type: 'item',
-      label: '删除任务',
+      label: t('editTask.deleteTask'),
       icon: Trash2,
       onClick: () => setShowDeleteDialog(true),
       className: 'text-destructive focus:text-destructive',
@@ -186,18 +193,18 @@ export function TaskCard({ task, className, onTaskUpdated }: TaskCardProps) {
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>删除任务</AlertDialogTitle>
+            <AlertDialogTitle>{t('editTask.deleteTask')}</AlertDialogTitle>
             <AlertDialogDescription>
-              您确定要删除任务 &ldquo;{task.title}&rdquo; 吗？此操作无法撤销。
+              {t('editTask.confirmDelete')} &ldquo;{task.title}&rdquo;?
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>取消</AlertDialogCancel>
+            <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              删除
+              {t('common.delete')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

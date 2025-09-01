@@ -19,8 +19,10 @@ import { UserAvatarDropdown } from '@/components/user-avatar-dropdown';
 import { PageHeader } from '@/components/common/page-header';
 import { getTodos } from '@/lib/todos';
 import { Todo } from '@/types';
+import { useTranslations } from 'next-intl';
 
 export default function TasksPage() {
+  const t = useTranslations();
   const { user, loading } = useAuth();
   const router = useRouter();
   const [tasks, setTasks] = useState<Todo[]>([]);
@@ -83,9 +85,13 @@ export default function TasksPage() {
                   <div className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-green-400 ring-2 ring-white/50"></div>
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-white">我的任务</h1>
+                  <h1 className="text-2xl font-bold text-white">
+                    {t('tasks.title')}
+                  </h1>
                   <p className="text-sm text-white/70">
-                    {tasks.length === 0 ? '暂无任务' : `${tasks.length} 个任务`}
+                    {tasks.length === 0
+                      ? t('tasks.noTasks')
+                      : `${tasks.length} ${t('tasks.allTasks')}`}
                   </p>
                 </div>
               </div>
@@ -107,32 +113,32 @@ export default function TasksPage() {
       <main className="mx-auto max-w-6xl py-8 sm:px-6 lg:px-8">
         <div className="px-4 py-2 sm:px-0">
           <PageHeader
-            title="任务列表"
-            description="管理您的所有待办事项"
+            title={t('tasks.title')}
+            description={t('tasks.description')}
             actions={[
               {
-                label: '工作台',
+                label: t('navigation.dashboard'),
                 icon: ArrowLeft,
                 variant: 'ghost',
                 size: 'sm',
                 href: '/dashboard',
               },
               {
-                label: '回收站',
+                label: t('navigation.trash'),
                 icon: Trash2,
                 variant: 'outline',
                 size: 'sm',
                 href: '/trash',
               },
               {
-                label: '统计',
+                label: t('navigation.statistics'),
                 icon: BarChart3,
                 variant: 'outline',
                 size: 'sm',
                 href: '/statistics',
               },
               {
-                label: '添加任务',
+                label: t('navigation.addTask'),
                 icon: Plus,
                 variant: 'default',
                 size: 'sm',
@@ -153,7 +159,7 @@ export default function TasksPage() {
                     </div>
                   </div>
                   <p className="text-gray-600 dark:text-gray-400">
-                    加载任务中...
+                    {t('tasks.loadingTasks')}
                   </p>
                 </div>
               </div>
@@ -164,7 +170,7 @@ export default function TasksPage() {
                     <Loader2 className="h-10 w-10 text-red-600 dark:text-red-400" />
                   </div>
                   <h3 className="mb-2 text-xl font-bold text-red-900 dark:text-red-100">
-                    加载失败
+                    {t('common.loading')}
                   </h3>
                   <p className="mb-6 text-red-700 dark:text-red-300">{error}</p>
                   <Button
@@ -172,7 +178,7 @@ export default function TasksPage() {
                     variant="outline"
                     className="bg-white/50"
                   >
-                    重试
+                    {t('common.cancel')}
                   </Button>
                 </div>
               </div>
@@ -183,16 +189,16 @@ export default function TasksPage() {
                     <Plus className="h-10 w-10 text-gray-500 dark:text-gray-400" />
                   </div>
                   <h3 className="mb-2 text-xl font-bold text-gray-900 dark:text-gray-100">
-                    还没有任务
+                    {t('tasks.noTasks')}
                   </h3>
                   <p className="mb-6 text-gray-600 dark:text-gray-400">
-                    创建您的第一个任务开始高效工作
+                    {t('tasks.noTasksDesc')}
                   </p>
                   <Link href="/add-task" className="group inline-block">
                     <div className="relative overflow-hidden rounded-xl border-0 bg-gradient-to-r from-green-500 to-green-600 px-6 py-3 text-white transition-all duration-300 hover:scale-105 hover:shadow-lg">
                       <span className="relative z-10 flex items-center gap-2 font-semibold">
                         <Plus className="h-5 w-5" />
-                        创建第一个任务
+                        {t('tasks.createTask')}
                       </span>
                       <div className="absolute -top-4 -right-4 h-12 w-12 rounded-full bg-white/20"></div>
                     </div>

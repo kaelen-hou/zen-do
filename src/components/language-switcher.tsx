@@ -10,16 +10,20 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Languages } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
-const languages = [
-  { code: 'zh', name: '中文', flag: '🇨🇳' },
-  { code: 'en', name: 'English', flag: '🇺🇸' },
-];
+// Languages will be defined inside component to use translations
 
 export function LanguageSwitcher() {
+  const t = useTranslations('settings');
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
+
+  const languages = [
+    { code: 'zh', name: t('languageChinese'), flag: '🇨🇳' },
+    { code: 'en', name: t('languageEnglish'), flag: '🇺🇸' },
+  ];
 
   const currentLanguage = languages.find(lang => lang.code === locale);
 

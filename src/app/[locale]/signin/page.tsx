@@ -82,7 +82,9 @@ export default function SignInPage() {
     <div className="bg-background flex min-h-screen flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight">{t('signInToAccount')}</h2>
+          <h2 className="text-3xl font-bold tracking-tight">
+            {t('signInToAccount')}
+          </h2>
           <p className="text-muted-foreground mt-2 text-sm">
             {t('dontHaveAccount')}{' '}
             <Link
