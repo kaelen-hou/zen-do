@@ -122,8 +122,8 @@ export default function Home() {
 
             <Card className="relative overflow-hidden hover:shadow-lg transition-shadow">
               <CardHeader>
-                <div className="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center mb-4">
-                  <FileText className="w-6 h-6 text-secondary" />
+                <div className="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center mb-4">
+                  <FileText className="w-6 h-6 text-blue-500" />
                 </div>
                 <CardTitle>文件附件</CardTitle>
                 <CardDescription>
@@ -134,8 +134,8 @@ export default function Home() {
 
             <Card className="relative overflow-hidden hover:shadow-lg transition-shadow">
               <CardHeader>
-                <div className="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center mb-4">
-                  <Users className="w-6 h-6 text-green-600" />
+                <div className="w-12 h-12 bg-blue-600/10 rounded-lg flex items-center justify-center mb-4">
+                  <Users className="w-6 h-6 text-blue-600" />
                 </div>
                 <CardTitle>团队协作</CardTitle>
                 <CardDescription>
@@ -146,8 +146,8 @@ export default function Home() {
 
             <Card className="relative overflow-hidden hover:shadow-lg transition-shadow">
               <CardHeader>
-                <div className="w-12 h-12 bg-orange-500/10 rounded-lg flex items-center justify-center mb-4">
-                  <Target className="w-6 h-6 text-orange-600" />
+                <div className="w-12 h-12 bg-blue-700/10 rounded-lg flex items-center justify-center mb-4">
+                  <Target className="w-6 h-6 text-blue-700" />
                 </div>
                 <CardTitle>优先级管理</CardTitle>
                 <CardDescription>
@@ -170,8 +170,8 @@ export default function Home() {
 
             <Card className="relative overflow-hidden hover:shadow-lg transition-shadow">
               <CardHeader>
-                <div className="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center mb-4">
-                  <Smartphone className="w-6 h-6 text-purple-600" />
+                <div className="w-12 h-12 bg-blue-800/10 rounded-lg flex items-center justify-center mb-4">
+                  <Smartphone className="w-6 h-6 text-blue-800" />
                 </div>
                 <CardTitle>跨平台支持</CardTitle>
                 <CardDescription>
@@ -191,7 +191,7 @@ export default function Home() {
               <h2 className="text-3xl md:text-4xl font-bold mb-6">为什么选择 ZenDo？</h2>
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
-                  <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                     <CheckCircle className="w-4 h-4 text-white" />
                   </div>
                   <div>
@@ -200,7 +200,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
-                  <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                     <CheckCircle className="w-4 h-4 text-white" />
                   </div>
                   <div>
@@ -209,7 +209,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">
-                  <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                  <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                     <CheckCircle className="w-4 h-4 text-white" />
                   </div>
                   <div>
@@ -220,7 +220,7 @@ export default function Home() {
               </div>
             </div>
             <div className="relative">
-              <div className="bg-gradient-to-br from-primary/20 to-secondary/20 rounded-2xl p-8 h-96 flex items-center justify-center">
+              <div className="bg-gradient-to-br from-blue-500/20 to-blue-700/20 rounded-2xl p-8 h-96 flex items-center justify-center">
                 <div className="text-center">
                   <div className="text-6xl mb-4">📊</div>
                   <p className="text-lg font-medium">在这里展示产品截图或演示视频</p>
@@ -272,8 +272,8 @@ export default function Home() {
                   &ldquo;作为自由职业者，我需要管理多个项目。ZenDo 的优先级功能让我能更好地安排时间。&rdquo;
                 </p>
                 <div className="flex items-center">
-                  <div className="w-10 h-10 bg-secondary/10 rounded-full flex items-center justify-center mr-3">
-                    <Users className="w-5 h-5 text-secondary" />
+                  <div className="w-10 h-10 bg-blue-500/10 rounded-full flex items-center justify-center mr-3">
+                    <Users className="w-5 h-5 text-blue-500" />
                   </div>
                   <div>
                     <p className="font-medium">李设计师</p>
@@ -294,8 +294,8 @@ export default function Home() {
                   &ldquo;界面简洁美观，功能强大而不复杂。我们团队的效率提升了很多。&rdquo;
                 </p>
                 <div className="flex items-center">
-                  <div className="w-10 h-10 bg-green-500/10 rounded-full flex items-center justify-center mr-3">
-                    <Users className="w-5 h-5 text-green-600" />
+                  <div className="w-10 h-10 bg-blue-600/10 rounded-full flex items-center justify-center mr-3">
+                    <Users className="w-5 h-5 text-blue-600" />
                   </div>
                   <div>
                     <p className="font-medium">王开发</p>
@@ -309,7 +309,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-br from-primary to-secondary">
+      <section className="py-24 bg-gradient-to-br from-blue-600 to-blue-800 dark:from-primary dark:to-secondary">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
             准备开始高效工作了吗？
@@ -318,7 +318,7 @@ export default function Home() {
             加入数千名用户，让任务管理变得简单高效
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="text-lg px-8 py-6" asChild>
+            <Button size="lg" variant="secondary" className="text-lg px-8 py-6 bg-white text-blue-600 hover:bg-white/90" asChild>
               <Link href="/signup">
                 免费开始使用
                 <ArrowRight className="ml-2 w-5 h-5" />
@@ -327,7 +327,7 @@ export default function Home() {
             <Button 
               size="lg" 
               variant="outline" 
-              className="text-lg px-8 py-6 border-white/20 text-white hover:bg-white/10" 
+              className="text-lg px-8 py-6 border-white/80 border-2 text-white bg-white/10 hover:bg-white hover:text-blue-600 backdrop-blur-sm" 
               asChild
             >
               <Link href="/signin">立即登录</Link>
