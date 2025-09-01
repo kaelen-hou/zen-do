@@ -7,7 +7,12 @@
 - `pnpm run dev` - 使用 Turbopack 启动开发服务器
 - `pnpm run build` - 使用 Turbopack 进行生产构建
 - `pnpm run start` - 启动生产服务器
-- `pnpm run lint` - 运行 ESLint
+- `pnpm run lint` - 运行 ESLint 检查代码质量
+- `pnpm run lint:fix` - 自动修复可修复的 ESLint 错误
+- `pnpm run format` - 使用 Prettier 格式化代码
+- `pnpm run format:check` - 检查代码格式是否符合 Prettier 规范
+- `pnpm run typecheck` - 运行 TypeScript 类型检查
+- `pnpm run check` - 运行完整检查（类型、lint、格式）
 
 ## 架构概览
 
@@ -73,3 +78,4 @@
 除非绝对必要，否则不要创建文件。
 总是优先编辑现有文件而不是创建新文件。
 除非用户明确要求，否则不要主动创建文档文件（*.md）或 README 文件。
+- 任务执行完成后,运行 check, build 脚本,确保项目编译成功

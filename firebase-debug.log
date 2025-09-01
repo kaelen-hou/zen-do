@@ -1,118 +1,19 @@
-[debug] [2025-08-31T14:16:17.154Z] ----------------------------------------------------------------------
-[debug] [2025-08-31T14:16:17.155Z] Command:       /Users/sam/.volta/tools/image/node/22.14.0/bin/node /Users/sam/.volta/tools/image/packages/firebase-tools/bin/firebase login:ci
-[debug] [2025-08-31T14:16:17.156Z] CLI Version:   14.15.1
-[debug] [2025-08-31T14:16:17.156Z] Platform:      darwin
-[debug] [2025-08-31T14:16:17.156Z] Node Version:  v22.14.0
-[debug] [2025-08-31T14:16:17.156Z] Time:          Sun Aug 31 2025 22:16:17 GMT+0800 (China Standard Time)
-[debug] [2025-08-31T14:16:17.156Z] ----------------------------------------------------------------------
+[debug] [2025-09-01T02:34:54.064Z] ----------------------------------------------------------------------
+[debug] [2025-09-01T02:34:54.065Z] Command:       /Users/sam/.local/share/fnm/node-versions/v22.17.1/installation/bin/node /Users/sam/.local/state/fnm_multishells/23627_1756693597448/bin/firebase help
+[debug] [2025-09-01T02:34:54.065Z] CLI Version:   14.15.0
+[debug] [2025-09-01T02:34:54.065Z] Platform:      darwin
+[debug] [2025-09-01T02:34:54.066Z] Node Version:  v22.17.1
+[debug] [2025-09-01T02:34:54.066Z] Time:          Mon Sep 01 2025 10:34:54 GMT+0800 (China Standard Time)
+[debug] [2025-09-01T02:34:54.066Z] ----------------------------------------------------------------------
 [debug] 
-[warn] ⚠  Authenticating with a `login:ci` token is deprecated and will be removed in a future major version of `firebase-tools`. Instead, use a service account key with `GOOGLE_APPLICATION_CREDENTIALS`: https://cloud.google.com/docs/authentication/getting-started 
 [info] 
-[info] Visit this URL on this device to log in:
-[info] https://accounts.google.com/o/oauth2/auth?client_id=563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com&scope=email%20openid%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloudplatformprojects.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ffirebase%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloud-platform&response_type=code&state=960020653&redirect_uri=http%3A%2F%2Flocalhost%3A9005
+[info]   To get help with a specific command, type firebase help [command_name]
 [info] 
-[info] Waiting for authentication...
-[debug] [2025-08-31T14:16:34.392Z] ----------------------------------------------------------------------
-[debug] [2025-08-31T14:16:34.393Z] Command:       /Users/sam/.volta/tools/image/node/22.14.0/bin/node /Users/sam/.volta/tools/image/packages/firebase-tools/bin/firebase deploy
-[debug] [2025-08-31T14:16:34.393Z] CLI Version:   14.15.1
-[debug] [2025-08-31T14:16:34.394Z] Platform:      darwin
-[debug] [2025-08-31T14:16:34.394Z] Node Version:  v22.14.0
-[debug] [2025-08-31T14:16:34.394Z] Time:          Sun Aug 31 2025 22:16:34 GMT+0800 (China Standard Time)
-[debug] [2025-08-31T14:16:34.394Z] ----------------------------------------------------------------------
-[debug] 
-[debug] [2025-08-31T14:16:39.512Z] Error: Timed out.
-    at Timeout._onTimeout (/Users/sam/.volta/tools/image/packages/firebase-tools/lib/node_modules/firebase-tools/lib/utils.js:273:49)
-    at listOnTimeout (node:internal/timers:594:17)
-    at process.processTimers (node:internal/timers:529:7)
+[info]  Privacy Policy: https://firebase.google.com/support/privacy
+[info] 
+[debug] [2025-09-01T02:35:04.187Z] Error: Timed out.
+    at Timeout._onTimeout (/Users/sam/.local/share/fnm/node-versions/v22.17.1/installation/lib/node_modules/firebase-tools/lib/utils.js:273:49)
+    at listOnTimeout (node:internal/timers:588:17)
+    at process.processTimers (node:internal/timers:523:7)
 [error] 
 [error] Error: An unexpected error has occurred.
-[debug] [2025-08-31T14:16:43.813Z] ----------------------------------------------------------------------
-[debug] [2025-08-31T14:16:43.814Z] Command:       /Users/sam/.volta/tools/image/node/22.14.0/bin/node /Users/sam/.volta/tools/image/packages/firebase-tools/bin/firebase deploy
-[debug] [2025-08-31T14:16:43.814Z] CLI Version:   14.15.1
-[debug] [2025-08-31T14:16:43.814Z] Platform:      darwin
-[debug] [2025-08-31T14:16:43.814Z] Node Version:  v22.14.0
-[debug] [2025-08-31T14:16:43.814Z] Time:          Sun Aug 31 2025 22:16:43 GMT+0800 (China Standard Time)
-[debug] [2025-08-31T14:16:43.815Z] ----------------------------------------------------------------------
-[debug] 
-[debug] [2025-08-31T14:16:48.929Z] Error: Timed out.
-    at Timeout._onTimeout (/Users/sam/.volta/tools/image/packages/firebase-tools/lib/node_modules/firebase-tools/lib/utils.js:273:49)
-    at listOnTimeout (node:internal/timers:594:17)
-    at process.processTimers (node:internal/timers:529:7)
-[error] 
-[error] Error: An unexpected error has occurred.
-[debug] [2025-08-31T14:17:01.996Z] ----------------------------------------------------------------------
-[debug] [2025-08-31T14:17:01.998Z] Command:       /Users/sam/.volta/tools/image/node/22.14.0/bin/node /Users/sam/.volta/tools/image/packages/firebase-tools/bin/firebase login
-[debug] [2025-08-31T14:17:01.998Z] CLI Version:   14.15.1
-[debug] [2025-08-31T14:17:01.998Z] Platform:      darwin
-[debug] [2025-08-31T14:17:01.998Z] Node Version:  v22.14.0
-[debug] [2025-08-31T14:17:01.998Z] Time:          Sun Aug 31 2025 22:17:01 GMT+0800 (China Standard Time)
-[debug] [2025-08-31T14:17:01.998Z] ----------------------------------------------------------------------
-[debug] 
-[info] i  The Firebase CLI’s MCP server feature can optionally make use of Gemini in Firebase. Learn more about Gemini in Firebase and how it uses your data: https://firebase.google.com/docs/gemini-in-firebase#how-gemini-in-firebase-uses-your-data 
-[info] 
-[info] i  Firebase optionally collects CLI and Emulator Suite usage and error reporting information to help improve our products. Data is collected in accordance with Google's privacy policy (https://policies.google.com/privacy) and is not used to identify you. 
-[info] 
-[info] i  To change your preferences at any time, run `firebase logout` and `firebase login` again. 
-[info] 
-[info] Visit this URL on this device to log in:
-[info] https://accounts.google.com/o/oauth2/auth?client_id=563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com&scope=email%20openid%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloudplatformprojects.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ffirebase%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloud-platform&response_type=code&state=363396874&redirect_uri=http%3A%2F%2Flocalhost%3A9005
-[info] 
-[info] Waiting for authentication...
-[debug] [2025-08-31T14:17:25.365Z] >>> [apiv2][query] POST https://accounts.google.com/o/oauth2/token [none]
-[debug] [2025-08-31T14:17:25.366Z] >>> [apiv2][body] POST https://accounts.google.com/o/oauth2/token [omitted]
-[debug] [2025-08-31T14:18:41.147Z] *** [apiv2] error from fetch(https://accounts.google.com/o/oauth2/token, {"headers":{},"method":"POST","body":{"_overheadLength":543,"_valueLength":208,"_valuesToMeasure":[],"writable":false,"readable":true,"dataSize":0,"maxDataSize":2097152,"pauseStreams":true,"_released":true,"_streams":[],"_currentStream":null,"_insideLoop":false,"_pendingNext":false,"_boundary":"--------------------------93575e782effe3f0386a794e","_events":{},"_eventsCount":1}}): FetchError: request to https://accounts.google.com/o/oauth2/token failed, reason: 
-[debug] [2025-08-31T14:18:41.149Z] Token Fetch Error: FirebaseError: Failed to make request to https://accounts.google.com/o/oauth2/token
-    at RetryOperation._fn (/Users/sam/.volta/tools/image/packages/firebase-tools/lib/node_modules/firebase-tools/lib/apiv2.js:261:31)
-    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-[error] Authentication Error: Your credentials are no longer valid. Please run firebase login --reauth
-
-For CI servers and headless environments, generate a new token with firebase login:ci
-[debug] [2025-08-31T14:18:41.156Z] >>> [apiv2][query] POST https://auth.firebase.tools/attest [none]
-[debug] [2025-08-31T14:18:41.156Z] >>> [apiv2][body] POST https://auth.firebase.tools/attest {"session_id":"6a71f862-50e3-47f2-8871-fc339b733f2c"}
-[debug] [2025-08-31T14:18:42.167Z] <<< [apiv2][status] POST https://auth.firebase.tools/attest 200
-[debug] [2025-08-31T14:18:42.168Z] <<< [apiv2][body] POST https://auth.firebase.tools/attest {"token":"tSH_b6LqtQp1yEvMBMXLsnNKXCwb2oPuPeR3g5Qmhn4"}
-[info] 
-[info] To sign in to the Firebase CLI:
-[info] 
-[info] 1. Take note of your session ID:
-[info] 
-[info]    6A71F
-[info] 
-[info] 2. Visit the URL below on any device and follow the instructions to get your code:
-[info] 
-[info]    https://auth.firebase.tools/login?code_challenge=rDDgBJbb1AprLAos_vDcIWmAZ6fS1XbYB4Mt0tH-9Rs&session=6a71f862-50e3-47f2-8871-fc339b733f2c&attest=tSH_b6LqtQp1yEvMBMXLsnNKXCwb2oPuPeR3g5Qmhn4
-[info] 
-[info] 3. Paste or enter the authorization code below once you have it:
-[info] 
-[debug] [2025-08-31T14:19:46.459Z] ----------------------------------------------------------------------
-[debug] [2025-08-31T14:19:46.460Z] Command:       /Users/sam/.volta/tools/image/node/22.14.0/bin/node /Users/sam/.volta/tools/image/packages/firebase-tools/bin/firebase login --no-localhost
-[debug] [2025-08-31T14:19:46.461Z] CLI Version:   14.15.1
-[debug] [2025-08-31T14:19:46.461Z] Platform:      darwin
-[debug] [2025-08-31T14:19:46.461Z] Node Version:  v22.14.0
-[debug] [2025-08-31T14:19:46.461Z] Time:          Sun Aug 31 2025 22:19:46 GMT+0800 (China Standard Time)
-[debug] [2025-08-31T14:19:46.461Z] ----------------------------------------------------------------------
-[debug] 
-[info] i  The Firebase CLI’s MCP server feature can optionally make use of Gemini in Firebase. Learn more about Gemini in Firebase and how it uses your data: https://firebase.google.com/docs/gemini-in-firebase#how-gemini-in-firebase-uses-your-data 
-[info] 
-[info] i  Firebase optionally collects CLI and Emulator Suite usage and error reporting information to help improve our products. Data is collected in accordance with Google's privacy policy (https://policies.google.com/privacy) and is not used to identify you. 
-[info] 
-[info] i  To change your preferences at any time, run `firebase logout` and `firebase login` again. 
-[debug] [2025-08-31T14:19:47.717Z] >>> [apiv2][query] POST https://auth.firebase.tools/attest [none]
-[debug] [2025-08-31T14:19:47.717Z] >>> [apiv2][body] POST https://auth.firebase.tools/attest {"session_id":"74d7fa9d-82b5-46e2-8f8f-9df3d40d7d6f"}
-[debug] [2025-08-31T14:19:48.594Z] <<< [apiv2][status] POST https://auth.firebase.tools/attest 200
-[debug] [2025-08-31T14:19:48.594Z] <<< [apiv2][body] POST https://auth.firebase.tools/attest {"token":"kLiKgbBUS_S8aUFkwLeCgzSJAK8Qgy2L5i4IekjFOVQ"}
-[info] 
-[info] To sign in to the Firebase CLI:
-[info] 
-[info] 1. Take note of your session ID:
-[info] 
-[info]    74D7F
-[info] 
-[info] 2. Visit the URL below on any device and follow the instructions to get your code:
-[info] 
-[info]    https://auth.firebase.tools/login?code_challenge=oNGAQsG7kAR09FgfHbMKKNvo7AwJpT2CDXJ1USulPHg&session=74d7fa9d-82b5-46e2-8f8f-9df3d40d7d6f&attest=kLiKgbBUS_S8aUFkwLeCgzSJAK8Qgy2L5i4IekjFOVQ
-[info] 
-[info] 3. Paste or enter the authorization code below once you have it:
-[info] 
-[debug] [2025-08-31T14:20:16.164Z] >>> [apiv2][query] POST https://accounts.google.com/o/oauth2/token [none]
-[debug] [2025-08-31T14:20:16.164Z] >>> [apiv2][body] POST https://accounts.google.com/o/oauth2/token [omitted]
