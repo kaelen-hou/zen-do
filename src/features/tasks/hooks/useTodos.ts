@@ -14,6 +14,7 @@ import { CreateTaskInput } from '@/shared/utils/lib/validations';
 import { Todo } from '@/shared/types';
 import { useAuth } from '@/features/auth';
 import { toast } from '@/shared/hooks';
+import { offlineQueue } from '@/shared/lib/offline-queue';
 
 // 查询键工厂
 export const todoKeys = {
@@ -82,17 +83,85 @@ export function useCreateTodo() {
   return useMutation({
     mutationFn: async (data: CreateTaskInput) => {
       if (!user?.uid) throw new Error('User not authenticated');
-      return createTodo(user.uid, data);
+
+      // Try to create immediately if online
+      if (navigator.onLine) {
+        return createTodo(user.uid, data);
+      } else {
+        // Add to offline queue if offline
+        await offlineQueue.addToQueue({
+          type: 'CREATE',
+          data: { userId: user.uid, taskData: data },
+        });
+
+        // Create optimistic todo for immediate UI feedback
+        const optimisticTodo: Todo = {
+          id: `offline-${Date.now()}`,
+          title: data.title,
+          description: data.description || '',
+          status: data.status || 'todo',
+          priority: data.priority || 'medium',
+          dueDate: data.dueDate ? new Date(data.dueDate) : undefined,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          userId: user.uid,
+          attachments: [],
+        };
+
+        return optimisticTodo;
+      }
+    },
+    onMutate: async data => {
+      if (!navigator.onLine) {
+        // Optimistic update for offline mode
+        await queryClient.cancelQueries({ queryKey: todoKeys.lists() });
+
+        const previousTodos = queryClient.getQueriesData({
+          queryKey: todoKeys.lists(),
+        });
+
+        const optimisticTodo: Todo = {
+          id: `offline-${Date.now()}`,
+          title: data.title,
+          description: data.description || '',
+          status: data.status || 'todo',
+          priority: data.priority || 'medium',
+          dueDate: data.dueDate ? new Date(data.dueDate) : undefined,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          userId: user?.uid || '',
+          attachments: [],
+        };
+
+        queryClient.setQueriesData(
+          { queryKey: todoKeys.lists() },
+          (oldData: Todo[] | undefined) => {
+            if (!oldData) return [optimisticTodo];
+            return [optimisticTodo, ...oldData];
+          }
+        );
+
+        return { previousTodos, optimisticTodo };
+      }
     },
     onSuccess: () => {
       // 使相关查询失效，触发重新获取
       queryClient.invalidateQueries({ queryKey: todoKeys.lists() });
       toast({
         title: '创建成功',
-        description: '任务已创建',
+        description: navigator.onLine
+          ? '任务已创建'
+          : '任务已创建（将在联网后同步）',
       });
     },
-    onError: error => {
+    onError: (error, _variables, context) => {
+      // Rollback optimistic updates if in offline mode
+      if (!navigator.onLine && context?.previousTodos) {
+        context.previousTodos.forEach(([queryKey, data]) => {
+          queryClient.setQueryData(queryKey, data);
+        });
+      }
+
       console.error('Create todo error:', error);
       toast({
         title: '创建失败',
@@ -110,7 +179,17 @@ export function useUpdateTodo() {
 
   return useMutation({
     mutationFn: async ({ id, data }: { id: string; data: Partial<Todo> }) => {
-      return updateTodo(id, data);
+      // Try to update immediately if online
+      if (navigator.onLine) {
+        return updateTodo(id, data);
+      } else {
+        // Add to offline queue if offline
+        await offlineQueue.addToQueue({
+          type: 'UPDATE',
+          data: { id, updates: data },
+        });
+        return data;
+      }
     },
     onMutate: async ({ id, data }) => {
       // 取消正在进行的查询
@@ -151,7 +230,9 @@ export function useUpdateTodo() {
     onSuccess: () => {
       toast({
         title: '更新成功',
-        description: '任务已更新',
+        description: navigator.onLine
+          ? '任务已更新'
+          : '任务已更新（将在联网后同步）',
       });
     },
     onSettled: () => {

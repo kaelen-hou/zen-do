@@ -10,3 +10,4 @@ export { ThemeProvider } from './ThemeProvider';
 export { ModeToggle } from './ModeToggle';
 export { LanguageSwitcher } from './LanguageSwitcher';
 export { GlobalLoading } from './GlobalLoading';
+export { OfflineIndicator } from './OfflineIndicator';

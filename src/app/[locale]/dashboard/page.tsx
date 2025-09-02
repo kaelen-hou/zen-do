@@ -10,6 +10,7 @@ import { Badge } from '@/shared/components/ui/badge';
 import { Card, CardContent, CardHeader } from '@/shared/components/ui/card';
 import { UserAvatarDropdown } from '@/features/auth';
 import { DashboardHero } from '@/features/dashboard';
+import { OfflineIndicator } from '@/shared/components';
 import { ClipboardList, Plus, BarChart3, Trash2, Clock } from 'lucide-react';
 import { useTodos } from '@/features/tasks';
 
@@ -128,7 +129,8 @@ export default function DashboardPage() {
                 </div>
               </div>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center gap-4">
+              <OfflineIndicator className="bg-white/20 text-white dark:bg-white/20 dark:text-white" />
               <div className="rounded-lg bg-white/10 p-1 backdrop-blur-sm">
                 <UserAvatarDropdown />
               </div>

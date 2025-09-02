@@ -66,6 +66,7 @@ export async function generateMetadata({
     verification: {
       google: 'google-site-verification=your-google-verification-code',
     },
+    manifest: '/manifest.json',
   };
 }
 
