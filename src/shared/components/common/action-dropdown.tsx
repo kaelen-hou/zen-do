@@ -38,7 +38,7 @@ export function ActionDropdown({
   disabled = false,
 }: ActionDropdownProps) {
   return (
-    <DropdownMenu modal={false}>
+    <DropdownMenu>
       <DropdownMenuTrigger asChild disabled={disabled}>
         {trigger}
       </DropdownMenuTrigger>

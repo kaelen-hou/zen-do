@@ -58,6 +58,7 @@ export function UserAvatarDropdown() {
         <Button
           variant="ghost"
           className="min-h-[44px] min-w-[44px] touch-manipulation rounded-md p-2 text-white transition-colors hover:bg-white/20 active:bg-white/30"
+          type="button"
         >
           <span className="truncate text-sm font-medium">
             {user.displayName || user.email}
