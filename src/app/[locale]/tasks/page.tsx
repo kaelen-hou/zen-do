@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect } from 'react';
 import { useRouter, Link } from '@/i18n/routing';
 import {
   ArrowLeft,
@@ -17,45 +17,22 @@ import { Button } from '@/components/ui/button';
 import { TaskCard } from '@/components/task-card';
 import { UserAvatarDropdown } from '@/components/user-avatar-dropdown';
 import { PageHeader } from '@/components/common/page-header';
-import { getTodos } from '@/lib/todos';
-import { Todo } from '@/types';
+import { useTodos } from '@/hooks/useTodos';
 import { useTranslations } from 'next-intl';
 
 export default function TasksPage() {
   const t = useTranslations();
   const { user, loading } = useAuth();
   const router = useRouter();
-  const [tasks, setTasks] = useState<Todo[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+
+  // 使用新的 React Query hook
+  const { data: tasks = [], isLoading, error, refetch } = useTodos();
 
   useEffect(() => {
     if (!loading && !user) {
       router.push('/signin');
     }
   }, [user, loading, router]);
-
-  const fetchTasks = useCallback(async () => {
-    if (!user) return;
-
-    try {
-      setIsLoading(true);
-      setError(null);
-      const fetchedTasks = await getTodos(user.uid);
-      setTasks(fetchedTasks);
-    } catch (error) {
-      console.error('Failed to fetch tasks:', error);
-      setError('Failed to load tasks. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (user) {
-      fetchTasks();
-    }
-  }, [user, fetchTasks]);
 
   if (loading) {
     return (
@@ -172,13 +149,15 @@ export default function TasksPage() {
                   <h3 className="mb-2 text-xl font-bold text-red-900 dark:text-red-100">
                     {t('common.loading')}
                   </h3>
-                  <p className="mb-6 text-red-700 dark:text-red-300">{error}</p>
+                  <p className="mb-6 text-red-700 dark:text-red-300">
+                    {error?.message || 'Failed to load tasks'}
+                  </p>
                   <Button
-                    onClick={fetchTasks}
+                    onClick={() => refetch()}
                     variant="outline"
                     className="bg-white/50"
                   >
-                    {t('common.cancel')}
+                    {t('common.retry')}
                   </Button>
                 </div>
               </div>
@@ -213,7 +192,7 @@ export default function TasksPage() {
                   <TaskCard
                     key={task.id}
                     task={task}
-                    onTaskUpdated={fetchTasks}
+                    onTaskUpdated={() => refetch()}
                   />
                 ))}
               </div>

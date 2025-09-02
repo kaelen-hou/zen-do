@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect } from 'react';
 import { useRouter, Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
 import { format } from 'date-fns';
@@ -11,8 +11,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { UserAvatarDropdown } from '@/components/user-avatar-dropdown';
 import { DashboardHero } from '@/components/dashboard-hero';
 import { ClipboardList, Plus, BarChart3, Trash2, Clock } from 'lucide-react';
-import { getTodos } from '@/lib/todos';
-import { Todo } from '@/types';
+import { useTodos } from '@/hooks/useTodos';
 
 export default function DashboardPage() {
   const { user, loading } = useAuth();
@@ -20,8 +19,12 @@ export default function DashboardPage() {
   const t = useTranslations('dashboard');
   const tPriorities = useTranslations('priorities');
   const tStatuses = useTranslations('statuses');
-  const [recentTasks, setRecentTasks] = useState<Todo[]>([]);
-  const [tasksLoading, setTasksLoading] = useState(false);
+
+  // 使用新的 React Query hook
+  const { data: allTodos = [], isLoading: tasksLoading } = useTodos();
+
+  // 获取最近的5条任务
+  const recentTasks = allTodos.slice(0, 5);
 
   const priorityConfig = {
     low: {
@@ -73,27 +76,6 @@ export default function DashboardPage() {
       router.push('/signin');
     }
   }, [user, loading, router]);
-
-  const fetchRecentTasks = useCallback(async () => {
-    if (!user) return;
-
-    try {
-      setTasksLoading(true);
-      const tasks = await getTodos(user.uid);
-      // 获取最近的5条任务
-      setRecentTasks(tasks.slice(0, 5));
-    } catch (error) {
-      console.error('Failed to fetch recent tasks:', error);
-    } finally {
-      setTasksLoading(false);
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (user) {
-      fetchRecentTasks();
-    }
-  }, [user, fetchRecentTasks]);
 
   if (loading) {
     return (
@@ -186,7 +168,7 @@ export default function DashboardPage() {
                           {t('todoItems')}
                         </div>
                         <div className="text-2xl font-bold">
-                          {recentTasks.length}
+                          {allTodos.length}
                         </div>
                       </div>
                     </div>

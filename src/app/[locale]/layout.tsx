@@ -4,8 +4,7 @@ import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import '../globals.css';
-import { AuthProvider } from '@/contexts/AuthContext';
-import { ThemeProvider } from '@/components/theme-provider';
+import { Providers } from '@/providers';
 import { GlobalLoading } from '@/components/global-loading';
 
 // Dynamic metadata generation based on locale
@@ -92,17 +91,10 @@ export default async function LocaleLayout({
     <html lang={locale} suppressHydrationWarning>
       <body className="antialiased">
         <NextIntlClientProvider messages={messages}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <AuthProvider>
-              {children}
-              <GlobalLoading />
-            </AuthProvider>
-          </ThemeProvider>
+          <Providers>
+            {children}
+            <GlobalLoading />
+          </Providers>
         </NextIntlClientProvider>
       </body>
     </html>

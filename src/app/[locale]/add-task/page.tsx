@@ -37,7 +37,7 @@ import {
 import { DatePicker } from '@/components/date-picker';
 import { SmartTaskInput } from '@/components/smart-task-input';
 import { createTaskSchema, CreateTaskInput } from '@/lib/validations';
-import { createTodo } from '@/lib/todos';
+import { useCreateTodo } from '@/hooks/useTodos';
 import { ParsedTask } from '@/types';
 import { parseISO } from 'date-fns';
 import { useTranslations } from 'next-intl';
@@ -94,9 +94,8 @@ export default function AddTaskPage() {
       description: t('statuses.archived'),
     },
   ];
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
   const [useSmartInput, setUseSmartInput] = useState(true);
+  const createMutation = useCreateTodo();
 
   const form = useForm<CreateTaskInput>({
     resolver: zodResolver(createTaskSchema),
@@ -147,21 +146,12 @@ export default function AddTaskPage() {
     if (!user) return;
 
     try {
-      setIsSubmitting(true);
-      setSubmitError(null);
-      await createTodo(user.uid, data);
-
-      // Show success message or redirect
+      await createMutation.mutateAsync(data);
+      // 成功创建后重定向到仪表板
       router.push('/dashboard?success=Task created successfully');
     } catch (error) {
       console.error('Failed to create task:', error);
-      setSubmitError(
-        error instanceof Error
-          ? error.message
-          : 'Failed to create task. Please check your Firebase configuration and try again.'
-      );
-    } finally {
-      setIsSubmitting(false);
+      // 错误处理已在 mutation 中处理，显示 toast
     }
   };
 
@@ -373,19 +363,21 @@ export default function AddTaskPage() {
                     )}
                   />
 
-                  {submitError && (
+                  {createMutation.error && (
                     <div className="bg-destructive/15 rounded-md p-3">
-                      <p className="text-destructive text-sm">{submitError}</p>
+                      <p className="text-destructive text-sm">
+                        {createMutation.error.message}
+                      </p>
                     </div>
                   )}
 
                   <div className="flex gap-3 pt-4">
                     <Button
                       type="submit"
-                      disabled={isSubmitting}
+                      disabled={createMutation.isPending}
                       className="flex-1"
                     >
-                      {isSubmitting
+                      {createMutation.isPending
                         ? t('addTask.creating')
                         : t('addTask.createTask')}
                     </Button>

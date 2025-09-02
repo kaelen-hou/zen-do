@@ -36,7 +36,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Todo } from '@/types';
-import { deleteTodo } from '@/lib/todos';
+import { useDeleteTodo } from '@/hooks/useTodos';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
 
@@ -51,8 +51,8 @@ interface TaskCardProps {
 export function TaskCard({ task, className, onTaskUpdated }: TaskCardProps) {
   const t = useTranslations();
   const router = useRouter();
-  const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const deleteMutation = useDeleteTodo();
 
   const priorityConfig = {
     low: {
@@ -105,15 +105,12 @@ export function TaskCard({ task, className, onTaskUpdated }: TaskCardProps) {
 
   const handleDelete = async () => {
     try {
-      setIsDeleting(true);
-      await deleteTodo(task.id);
+      await deleteMutation.mutateAsync(task.id);
       onTaskUpdated?.();
+      setShowDeleteDialog(false);
     } catch (error) {
       console.error('Failed to delete task:', error);
-      // TODO: Show error toast
-    } finally {
-      setIsDeleting(false);
-      setShowDeleteDialog(false);
+      // 错误处理已在 mutation 中处理，显示 toast
     }
   };
 
@@ -158,9 +155,9 @@ export function TaskCard({ task, className, onTaskUpdated }: TaskCardProps) {
               trigger={
                 <IconTrigger
                   icon={MoreHorizontal}
-                  loading={isDeleting}
+                  loading={deleteMutation.isPending}
                   loadingIcon={Loader2}
-                  disabled={isDeleting}
+                  disabled={deleteMutation.isPending}
                 />
               }
               items={dropdownItems}
