@@ -69,7 +69,6 @@ export function PageHeader({
               <>
                 {ActionIcon && <ActionIcon className="mr-0 h-4 w-4 sm:mr-2" />}
                 <span className="hidden sm:inline">{action.label}</span>
-                <span className="sr-only sm:not-sr-only">{action.label}</span>
               </>
             );
 
