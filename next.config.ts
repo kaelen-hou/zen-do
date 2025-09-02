@@ -66,6 +66,37 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  experimental: {
+    optimizePackageImports: [
+      'lucide-react',
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-dropdown-menu',
+      '@radix-ui/react-select',
+      '@tanstack/react-query',
+      'react-hook-form',
+      'date-fns',
+    ],
+  },
+  serverExternalPackages: ['firebase-admin'],
+  webpack: (config) => {
+    // Optimize bundle by splitting vendor chunks
+    config.optimization.splitChunks.cacheGroups.vendor = {
+      name: 'vendor',
+      test: /[\\/]node_modules[\\/]/,
+      chunks: 'all',
+      priority: 1,
+    };
+    
+    // Split Firebase into separate chunk since it's large
+    config.optimization.splitChunks.cacheGroups.firebase = {
+      name: 'firebase',
+      test: /[\\/]node_modules[\\/]firebase/,
+      chunks: 'all',
+      priority: 2,
+    };
+
+    return config;
+  },
 };
 
 export default withNextIntl(withPWA(nextConfig));

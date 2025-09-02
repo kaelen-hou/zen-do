@@ -2,8 +2,9 @@ import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
-import { getDatabase } from 'firebase/database';
-import { getFunctions } from 'firebase/functions';
+// Lazy load unused Firebase services to reduce bundle size
+// import { getDatabase } from 'firebase/database';
+// import { getFunctions } from 'firebase/functions';
 import { getAnalytics, isSupported } from 'firebase/analytics';
 
 const firebaseConfig = {
@@ -28,12 +29,23 @@ const app =
       ? getApp()
       : null;
 
-// Initialize Firebase services
+// Initialize core Firebase services
 export const auth = app ? getAuth(app) : null;
 export const db = app ? getFirestore(app) : null;
 export const storage = app ? getStorage(app) : null;
-export const realtimeDb = app ? getDatabase(app) : null;
-export const functions = app ? getFunctions(app) : null;
+
+// Lazy load unused services on demand to reduce initial bundle size
+export const getRealtimeDb = async () => {
+  if (!app) return null;
+  const { getDatabase } = await import('firebase/database');
+  return getDatabase(app);
+};
+
+export const getFunctions = async () => {
+  if (!app) return null;
+  const { getFunctions } = await import('firebase/functions');
+  return getFunctions(app);
+};
 
 // Initialize Analytics (only in browser)
 export const getFirebaseAnalytics = async () => {

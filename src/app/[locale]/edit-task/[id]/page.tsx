@@ -34,7 +34,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/shared/components/ui/form';
-import { DatePicker } from '@/shared/components';
+import DatePicker from '@/shared/components/DatePickerLazy';
 import {
   createTaskSchema,
   CreateTaskInput,
