@@ -131,9 +131,7 @@ export default function DashboardPage() {
             </div>
             <div className="flex items-center gap-4">
               <OfflineIndicator className="bg-white/20 text-white dark:bg-white/20 dark:text-white" />
-              <div className="rounded-lg bg-white/10 p-1 backdrop-blur-sm">
-                <UserAvatarDropdown />
-              </div>
+              <UserAvatarDropdown />
             </div>
           </div>
         </div>

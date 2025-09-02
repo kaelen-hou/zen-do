@@ -47,6 +47,7 @@ export function ActionDropdown({
         side="bottom"
         sideOffset={5}
         className={cn('z-50 min-w-[160px]', contentClassName)}
+        onCloseAutoFocus={e => e.preventDefault()}
       >
         {items.map((item, index) => {
           const key = `dropdown-item-${index}`;
