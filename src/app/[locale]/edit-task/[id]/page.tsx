@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeft, Save, Loader2 } from 'lucide-react';
 
 import { useAuth } from '@/features/auth';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/shared/components/ui/button';
 import {
   Card,
@@ -42,25 +43,58 @@ import {
 import { updateTodo, getTodos } from '@/features/tasks';
 import { Todo } from '@/shared/types';
 
-const priorityOptions = [
-  { value: 'low', label: '低优先级', description: '不紧急，稍后处理' },
-  { value: 'medium', label: '中等优先级', description: '正常优先级任务' },
-  { value: 'high', label: '高优先级', description: '重要，需要关注' },
-  { value: 'urgent', label: '紧急', description: '关键任务，立即处理' },
-];
-
-const statusOptions = [
-  { value: 'todo', label: '待办', description: '任务尚未开始' },
-  { value: 'in-progress', label: '进行中', description: '正在处理此任务' },
-  { value: 'done', label: '已完成', description: '任务已完成' },
-  { value: 'archived', label: '已归档', description: '任务已归档' },
-];
-
 export default function EditTaskPage() {
+  const t = useTranslations();
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const params = useParams();
   const taskId = params.id as string;
+
+  const priorityOptions = [
+    {
+      value: 'low',
+      label: t('priorities.low'),
+      description: t('priorities.lowDesc'),
+    },
+    {
+      value: 'medium',
+      label: t('priorities.medium'),
+      description: t('priorities.mediumDesc'),
+    },
+    {
+      value: 'high',
+      label: t('priorities.high'),
+      description: t('priorities.highDesc'),
+    },
+    {
+      value: 'urgent',
+      label: t('priorities.urgent'),
+      description: t('priorities.urgentDesc'),
+    },
+  ];
+
+  const statusOptions = [
+    {
+      value: 'todo',
+      label: t('statuses.todo'),
+      description: t('statuses.todoDesc'),
+    },
+    {
+      value: 'in-progress',
+      label: t('statuses.inProgress'),
+      description: t('statuses.inProgressDesc'),
+    },
+    {
+      value: 'done',
+      label: t('statuses.done'),
+      description: t('statuses.doneDesc'),
+    },
+    {
+      value: 'archived',
+      label: t('statuses.archived'),
+      description: t('statuses.archivedDesc'),
+    },
+  ];
 
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -102,11 +136,11 @@ export default function EditTaskPage() {
       });
     } catch (error) {
       console.error('Failed to load task:', error);
-      setSubmitError('加载任务失败，请稍后重试');
+      setSubmitError(t('editTask.loadingTask'));
     } finally {
       setLoading(false);
     }
-  }, [user, taskId, router, form]);
+  }, [user, taskId, router, form, t]);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -134,11 +168,13 @@ export default function EditTaskPage() {
         dueDate: data.dueDate || null,
       });
 
-      router.push('/tasks?success=任务更新成功');
+      router.push(
+        `/tasks?success=${encodeURIComponent(t('editTask.taskUpdatedSuccess'))}`
+      );
     } catch (error) {
       console.error('Failed to update task:', error);
       setSubmitError(
-        error instanceof Error ? error.message : '更新任务失败，请稍后重试'
+        error instanceof Error ? error.message : t('editTask.updateTaskFailed')
       );
     } finally {
       setIsSubmitting(false);
@@ -150,7 +186,7 @@ export default function EditTaskPage() {
       <div className="bg-background flex min-h-screen items-center justify-center">
         <div className="flex items-center gap-2">
           <Loader2 className="h-6 w-6 animate-spin" />
-          <span>加载中...</span>
+          <span>{t('common.loading')}</span>
         </div>
       </div>
     );
@@ -170,8 +206,8 @@ export default function EditTaskPage() {
             </Link>
           </Button>
           <div>
-            <h1 className="text-3xl font-bold">编辑任务</h1>
-            <p className="text-muted-foreground">修改任务信息并保持高效</p>
+            <h1 className="text-3xl font-bold">{t('editTask.title')}</h1>
+            <p className="text-muted-foreground">{t('editTask.description')}</p>
           </div>
         </div>
 
@@ -179,9 +215,9 @@ export default function EditTaskPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Save className="h-5 w-5" />
-              任务信息
+              {t('editTask.taskInfo')}
             </CardTitle>
-            <CardDescription>更新下面的信息来修改您的任务</CardDescription>
+            <CardDescription>{t('editTask.updateInfo')}</CardDescription>
           </CardHeader>
           <CardContent>
             <Form {...form}>
@@ -194,12 +230,15 @@ export default function EditTaskPage() {
                   name="title"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>任务标题 *</FormLabel>
+                      <FormLabel>{t('editTask.taskTitleRequired')}</FormLabel>
                       <FormControl>
-                        <Input placeholder="输入任务标题..." {...field} />
+                        <Input
+                          placeholder={t('editTask.taskTitlePlaceholder')}
+                          {...field}
+                        />
                       </FormControl>
                       <FormDescription>
-                        为您的任务起一个清晰、简洁的标题
+                        {t('editTask.clearTitle')}
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -211,17 +250,17 @@ export default function EditTaskPage() {
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>任务描述</FormLabel>
+                      <FormLabel>{t('editTask.taskDescription')}</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="添加关于此任务的更多详细信息..."
+                          placeholder={t('editTask.taskDescriptionPlaceholder')}
                           className="resize-none"
                           rows={4}
                           {...field}
                         />
                       </FormControl>
                       <FormDescription>
-                        可选：添加关于任务的更多上下文或详细信息
+                        {t('editTask.optionalContext')}
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -234,14 +273,16 @@ export default function EditTaskPage() {
                     name="priority"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>优先级</FormLabel>
+                        <FormLabel>{t('editTask.priority')}</FormLabel>
                         <Select
                           onValueChange={field.onChange}
                           value={field.value}
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="选择优先级" />
+                              <SelectValue
+                                placeholder={t('priorities.selectPriority')}
+                              />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -261,7 +302,7 @@ export default function EditTaskPage() {
                           </SelectContent>
                         </Select>
                         <FormDescription>
-                          此任务的紧急程度如何？
+                          {t('editTask.priorityQuestion')}
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -273,14 +314,16 @@ export default function EditTaskPage() {
                     name="status"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>状态</FormLabel>
+                        <FormLabel>{t('editTask.status')}</FormLabel>
                         <Select
                           onValueChange={field.onChange}
                           value={field.value}
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="选择状态" />
+                              <SelectValue
+                                placeholder={t('statuses.selectStatus')}
+                              />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -299,7 +342,9 @@ export default function EditTaskPage() {
                             ))}
                           </SelectContent>
                         </Select>
-                        <FormDescription>任务的当前状态</FormDescription>
+                        <FormDescription>
+                          {t('editTask.statusCurrent')}
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -311,16 +356,16 @@ export default function EditTaskPage() {
                   name="dueDate"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>截止日期</FormLabel>
+                      <FormLabel>{t('editTask.dueDate')}</FormLabel>
                       <FormControl>
                         <DatePicker
                           value={field.value}
                           onChange={field.onChange}
-                          placeholder="选择截止日期"
+                          placeholder={t('editTask.selectDueDate')}
                         />
                       </FormControl>
                       <FormDescription>
-                        可选：此任务应该何时完成？
+                        {t('editTask.dueDateOptional')}
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -342,17 +387,17 @@ export default function EditTaskPage() {
                     {isSubmitting ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        保存中...
+                        {t('editTask.saving')}
                       </>
                     ) : (
                       <>
                         <Save className="mr-2 h-4 w-4" />
-                        保存更改
+                        {t('editTask.saveChanges')}
                       </>
                     )}
                   </Button>
                   <Button type="button" variant="outline" asChild>
-                    <Link href="/tasks">取消</Link>
+                    <Link href="/tasks">{t('editTask.cancel')}</Link>
                   </Button>
                 </div>
               </form>

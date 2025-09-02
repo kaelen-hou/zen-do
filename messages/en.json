@@ -149,13 +149,35 @@
   },
   "editTask": {
     "title": "Edit Task",
-    "description": "Update task details",
+    "description": "Update task details to stay efficient",
+    "taskInfo": "Task Information",
+    "updateInfo": "Update the information below to modify your task",
+    "taskTitle": "Task Title",
+    "taskTitleRequired": "Task Title *",
+    "taskTitlePlaceholder": "Enter task title...",
+    "clearTitle": "Give your task a clear, concise title",
+    "taskDescription": "Task Description",
+    "taskDescriptionPlaceholder": "Add more details about this task...",
+    "optionalContext": "Optional: Add more context or detailed information about the task",
+    "priority": "Priority",
+    "priorityQuestion": "How urgent is this task?",
+    "status": "Status",
+    "statusCurrent": "Current status of the task",
+    "dueDate": "Due Date",
+    "dueDateOptional": "Optional: When should this task be completed?",
+    "selectDueDate": "Select due date",
+    "saving": "Saving...",
+    "saveChanges": "Save Changes",
+    "cancel": "Cancel",
     "updateTask": "Update Task",
     "updating": "Updating...",
     "deleteTask": "Delete Task",
     "confirmDelete": "Are you sure you want to delete this task?",
     "taskNotFound": "Task not found",
-    "backToTasks": "Back to Tasks"
+    "backToTasks": "Back to Tasks",
+    "loadingTask": "Loading task failed, please try again later",
+    "taskUpdatedSuccess": "Task updated successfully",
+    "updateTaskFailed": "Failed to update task, please try again later"
   },
   "auth": {
     "signIn": "Sign In",
@@ -209,16 +231,26 @@
     "signUpFailed": "Registration failed, please try again"
   },
   "priorities": {
-    "low": "Low",
-    "medium": "Medium",
-    "high": "High",
-    "urgent": "Urgent"
+    "low": "Low Priority",
+    "medium": "Medium Priority", 
+    "high": "High Priority",
+    "urgent": "Urgent",
+    "lowDesc": "Not urgent, handle later",
+    "mediumDesc": "Normal priority task",
+    "highDesc": "Important, needs attention",
+    "urgentDesc": "Critical task, handle immediately",
+    "selectPriority": "Select priority"
   },
   "statuses": {
     "todo": "To Do",
-    "inProgress": "In Progress",
+    "inProgress": "In Progress", 
     "done": "Done",
-    "archived": "Archived"
+    "archived": "Archived",
+    "todoDesc": "Task not yet started",
+    "inProgressDesc": "Currently working on this task",
+    "doneDesc": "Task completed",
+    "archivedDesc": "Task archived",
+    "selectStatus": "Select status"
   },
   "settings": {
     "title": "Settings",

@@ -46,7 +46,7 @@ export function ActionDropdown({
         align={align}
         side="bottom"
         sideOffset={5}
-        className={cn('min-w-[160px] z-50', contentClassName)}
+        className={cn('z-50 min-w-[160px]', contentClassName)}
       >
         {items.map((item, index) => {
           const key = `dropdown-item-${index}`;
@@ -108,37 +108,42 @@ export interface IconTriggerProps {
 export const IconTrigger = React.forwardRef<
   HTMLButtonElement,
   IconTriggerProps
->(({
-  icon: Icon,
-  loading = false,
-  loadingIcon: LoadingIcon,
-  variant = 'ghost',
-  size = 'sm',
-  className,
-  disabled = false,
-  ...props
-}, ref) => {
-  const displayIcon = loading && LoadingIcon ? LoadingIcon : Icon;
-  const DisplayIcon = displayIcon;
+>(
+  (
+    {
+      icon: Icon,
+      loading = false,
+      loadingIcon: LoadingIcon,
+      variant = 'ghost',
+      size = 'sm',
+      className,
+      disabled = false,
+      ...props
+    },
+    ref
+  ) => {
+    const displayIcon = loading && LoadingIcon ? LoadingIcon : Icon;
+    const DisplayIcon = displayIcon;
 
-  return (
-    <Button
-      ref={ref}
-      variant={variant}
-      size={size}
-      className={cn(
-        'h-8 min-h-[44px] w-8 min-w-[44px] touch-manipulation p-0 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-        className
-      )}
-      disabled={disabled || loading}
-      type="button"
-      aria-label="More options"
-      {...props}
-    >
-      <DisplayIcon className={cn('h-4 w-4', loading && 'animate-spin')} />
-      <span className="sr-only">More options</span>
-    </Button>
-  );
-});
+    return (
+      <Button
+        ref={ref}
+        variant={variant}
+        size={size}
+        className={cn(
+          'focus-visible:ring-ring h-8 min-h-[44px] w-8 min-w-[44px] touch-manipulation p-0 focus-visible:ring-2 focus-visible:ring-offset-2',
+          className
+        )}
+        disabled={disabled || loading}
+        type="button"
+        aria-label="More options"
+        {...props}
+      >
+        <DisplayIcon className={cn('h-4 w-4', loading && 'animate-spin')} />
+        <span className="sr-only">More options</span>
+      </Button>
+    );
+  }
+);
 
 IconTrigger.displayName = 'IconTrigger';

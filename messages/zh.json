@@ -149,13 +149,35 @@
   },
   "editTask": {
     "title": "编辑任务",
-    "description": "更新任务详情",
+    "description": "修改任务信息并保持高效",
+    "taskInfo": "任务信息",
+    "updateInfo": "更新下面的信息来修改您的任务",
+    "taskTitle": "任务标题",
+    "taskTitleRequired": "任务标题 *",
+    "taskTitlePlaceholder": "输入任务标题...",
+    "clearTitle": "为您的任务起一个清晰、简洁的标题",
+    "taskDescription": "任务描述",
+    "taskDescriptionPlaceholder": "添加关于此任务的更多详细信息...",
+    "optionalContext": "可选：添加关于任务的更多上下文或详细信息",
+    "priority": "优先级",
+    "priorityQuestion": "此任务的紧急程度如何？",
+    "status": "状态",
+    "statusCurrent": "任务的当前状态",
+    "dueDate": "截止日期",
+    "dueDateOptional": "可选：此任务应该何时完成？",
+    "selectDueDate": "选择截止日期",
+    "saving": "保存中...",
+    "saveChanges": "保存更改",
+    "cancel": "取消",
     "updateTask": "更新任务",
     "updating": "更新中...",
     "deleteTask": "删除任务",
     "confirmDelete": "您确定要删除这个任务吗？",
     "taskNotFound": "任务未找到",
-    "backToTasks": "返回任务列表"
+    "backToTasks": "返回任务列表",
+    "loadingTask": "加载任务失败，请稍后重试",
+    "taskUpdatedSuccess": "任务更新成功",
+    "updateTaskFailed": "更新任务失败，请稍后重试"
   },
   "auth": {
     "signIn": "登录",
@@ -209,16 +231,26 @@
     "signUpFailed": "注册失败，请重试"
   },
   "priorities": {
-    "low": "低",
-    "medium": "中",
-    "high": "高",
-    "urgent": "急"
+    "low": "低优先级",
+    "medium": "中等优先级",
+    "high": "高优先级",
+    "urgent": "紧急",
+    "lowDesc": "不紧急，稍后处理",
+    "mediumDesc": "正常优先级任务",
+    "highDesc": "重要，需要关注",
+    "urgentDesc": "关键任务，立即处理",
+    "selectPriority": "选择优先级"
   },
   "statuses": {
     "todo": "待办",
     "inProgress": "进行中",
     "done": "已完成",
-    "archived": "已归档"
+    "archived": "已归档",
+    "todoDesc": "任务尚未开始",
+    "inProgressDesc": "正在处理此任务",
+    "doneDesc": "任务已完成",
+    "archivedDesc": "任务已归档",
+    "selectStatus": "选择状态"
   },
   "settings": {
     "title": "设置",
