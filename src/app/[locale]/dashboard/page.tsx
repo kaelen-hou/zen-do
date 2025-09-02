@@ -137,9 +137,9 @@ export default function DashboardPage() {
         </div>
 
         {/* 装饰性背景元素 */}
-        <div className="absolute -top-12 -right-12 h-32 w-32 rounded-full bg-white/5"></div>
-        <div className="absolute -bottom-8 -left-8 h-24 w-24 rounded-full bg-white/5"></div>
-        <div className="absolute top-0 right-1/4 h-16 w-16 rounded-full bg-white/5"></div>
+        <div className="pointer-events-none absolute -top-12 -right-12 h-32 w-32 rounded-full bg-white/5"></div>
+        <div className="pointer-events-none absolute -bottom-8 -left-8 h-24 w-24 rounded-full bg-white/5"></div>
+        <div className="pointer-events-none absolute top-0 right-1/4 h-16 w-16 rounded-full bg-white/5"></div>
       </nav>
 
       <main className="mx-auto max-w-6xl py-8 sm:px-6 lg:px-8">
