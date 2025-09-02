@@ -4,14 +4,14 @@ import { useEffect } from 'react';
 import { useRouter, Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
 import { format } from 'date-fns';
-import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { UserAvatarDropdown } from '@/components/user-avatar-dropdown';
-import { DashboardHero } from '@/components/dashboard-hero';
+import { useAuth } from '@/features/auth';
+import { Button } from '@/shared/components/ui/button';
+import { Badge } from '@/shared/components/ui/badge';
+import { Card, CardContent, CardHeader } from '@/shared/components/ui/card';
+import { UserAvatarDropdown } from '@/features/auth';
+import { DashboardHero } from '@/features/dashboard';
 import { ClipboardList, Plus, BarChart3, Trash2, Clock } from 'lucide-react';
-import { useTodos } from '@/hooks/useTodos';
+import { useTodos } from '@/features/tasks';
 
 export default function DashboardPage() {
   const { user, loading } = useAuth();

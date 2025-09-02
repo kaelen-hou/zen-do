@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { openai } from '@/lib/openai';
+import { openai } from '@/shared/utils/lib/openai';
 import fs from 'fs';
 import path from 'path';
 

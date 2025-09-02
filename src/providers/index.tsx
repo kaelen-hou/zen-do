@@ -4,7 +4,7 @@ import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ThemeProvider } from 'next-themes';
-import { AuthProvider } from '@/contexts/AuthContext';
+import { AuthProvider } from '@/features/auth';
 
 // 创建 QueryClient 实例
 const queryClient = new QueryClient({

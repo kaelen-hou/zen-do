@@ -12,12 +12,12 @@ import {
   Clock,
 } from 'lucide-react';
 
-import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
-import { TaskCard } from '@/components/task-card';
-import { UserAvatarDropdown } from '@/components/user-avatar-dropdown';
-import { PageHeader } from '@/components/common/page-header';
-import { useTodos } from '@/hooks/useTodos';
+import { useAuth } from '@/features/auth';
+import { Button } from '@/shared/components/ui/button';
+import { TaskCard } from '@/features/tasks';
+import { UserAvatarDropdown } from '@/features/auth';
+import { PageHeader } from '@/shared/components/common/page-header';
+import { useTodos } from '@/features/tasks';
 import { useTranslations } from 'next-intl';
 
 export default function TasksPage() {

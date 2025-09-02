@@ -2,17 +2,17 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, Link } from '@/i18n/routing';
-import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { useAuth } from '@/features/auth';
+import { Button } from '@/shared/components/ui/button';
+import { Input } from '@/shared/components/ui/input';
+import { Label } from '@/shared/components/ui/label';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from '@/shared/components/ui/card';
 import { Chrome } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
 

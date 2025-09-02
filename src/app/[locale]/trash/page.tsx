@@ -13,16 +13,16 @@ import {
   Flag,
 } from 'lucide-react';
 
-import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
+import { useAuth } from '@/features/auth';
+import { Button } from '@/shared/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+} from '@/shared/components/ui/card';
+import { Badge } from '@/shared/components/ui/badge';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,14 +33,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+} from '@/shared/components/ui/alert-dialog';
 import {
   getDeletedTodos,
   restoreTodo,
   permanentlyDeleteTodo,
-} from '@/lib/todos';
-import { Todo } from '@/types';
-import { cn } from '@/lib/utils';
+} from '@/features/tasks';
+import { Todo } from '@/shared/types';
+import { cn } from '@/shared/utils/lib/utils';
 
 const priorityConfig = {
   low: {

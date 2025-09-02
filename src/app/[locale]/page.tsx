@@ -4,16 +4,16 @@ import { useEffect } from 'react';
 import { useRouter } from '@/i18n/routing';
 import { Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
-import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
+import { useAuth } from '@/features/auth';
+import { Button } from '@/shared/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { LanguageSwitcher } from '@/components/language-switcher';
+} from '@/shared/components/ui/card';
+import { LanguageSwitcher } from '@/shared/components';
 import {
   CheckCircle,
   Zap,

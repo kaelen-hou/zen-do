@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import '../globals.css';
 import { Providers } from '@/providers';
-import { GlobalLoading } from '@/components/global-loading';
+import { GlobalLoading } from '@/shared/components';
 
 // Dynamic metadata generation based on locale
 export async function generateMetadata({

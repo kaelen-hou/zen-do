@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { TaskParser } from '@/lib/task-parser';
+import { TaskParser } from '@/shared/utils/lib/task-parser';
 
 export async function POST(request: NextRequest) {
   try {

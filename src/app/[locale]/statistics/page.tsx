@@ -11,17 +11,17 @@ import {
   CheckCircle,
 } from 'lucide-react';
 
-import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
+import { useAuth } from '@/features/auth';
+import { Button } from '@/shared/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { getTodos } from '@/lib/todos';
-import { Todo } from '@/types';
+} from '@/shared/components/ui/card';
+import { getTodos } from '@/features/tasks';
+import { Todo } from '@/shared/types';
 import { useTranslations } from 'next-intl';
 
 interface TaskStats {

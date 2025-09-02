@@ -5,26 +5,26 @@ import { useRouter, Link } from '@/i18n/routing';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeft, Plus, Bot } from 'lucide-react';
-import { PageHeader } from '@/components/common/page-header';
+import { PageHeader } from '@/shared/components/common/page-header';
 
-import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
+import { useAuth } from '@/features/auth';
+import { Button } from '@/shared/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+} from '@/shared/components/ui/card';
+import { Input } from '@/shared/components/ui/input';
+import { Textarea } from '@/shared/components/ui/textarea';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from '@/shared/components/ui/select';
 import {
   Form,
   FormControl,
@@ -33,12 +33,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { DatePicker } from '@/components/date-picker';
-import { SmartTaskInput } from '@/components/smart-task-input';
-import { createTaskSchema, CreateTaskInput } from '@/lib/validations';
-import { useCreateTodo } from '@/hooks/useTodos';
-import { ParsedTask } from '@/types';
+} from '@/shared/components/ui/form';
+import { DatePicker } from '@/shared/components';
+import { SmartTaskInput } from '@/features/tasks';
+import {
+  createTaskSchema,
+  CreateTaskInput,
+} from '@/shared/utils/lib/validations';
+import { useCreateTodo } from '@/features/tasks';
+import { ParsedTask } from '@/shared/types';
 import { parseISO } from 'date-fns';
 import { useTranslations } from 'next-intl';
 

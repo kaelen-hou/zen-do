@@ -7,24 +7,24 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeft, Save, Loader2 } from 'lucide-react';
 
-import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
+import { useAuth } from '@/features/auth';
+import { Button } from '@/shared/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+} from '@/shared/components/ui/card';
+import { Input } from '@/shared/components/ui/input';
+import { Textarea } from '@/shared/components/ui/textarea';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from '@/shared/components/ui/select';
 import {
   Form,
   FormControl,
@@ -33,11 +33,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { DatePicker } from '@/components/date-picker';
-import { createTaskSchema, CreateTaskInput } from '@/lib/validations';
-import { updateTodo, getTodos } from '@/lib/todos';
-import { Todo } from '@/types';
+} from '@/shared/components/ui/form';
+import { DatePicker } from '@/shared/components';
+import {
+  createTaskSchema,
+  CreateTaskInput,
+} from '@/shared/utils/lib/validations';
+import { updateTodo, getTodos } from '@/features/tasks';
+import { Todo } from '@/shared/types';
 
 const priorityOptions = [
   { value: 'low', label: '低优先级', description: '不紧急，稍后处理' },

@@ -2,17 +2,22 @@
 
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { ModeToggle } from '@/components/mode-toggle';
-import { LanguageSwitcher } from '@/components/language-switcher';
-import { PageHeader } from '@/components/common/page-header';
+import { useAuth } from '@/features/auth';
+import { Button } from '@/shared/components/ui/button';
+import { Input } from '@/shared/components/ui/input';
+import { Label } from '@/shared/components/ui/label';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/shared/components/ui/card';
+import { Separator } from '@/shared/components/ui/separator';
+import { ModeToggle } from '@/shared/components';
+import { LanguageSwitcher } from '@/shared/components';
+import { PageHeader } from '@/shared/components/common/page-header';
 import { User, Camera, Save, ArrowLeft, Settings } from 'lucide-react';
-import { AvatarUploadDialog } from '@/components/avatar-upload-dialog';
+import { AvatarUploadDialog } from '@/features/auth';
 
 export default function SettingsPage() {
   const { user, updateUserProfile } = useAuth();
